@@ -7,6 +7,32 @@ jQuery(function($) {
     
     console.log('Extra Styles Backend JS loaded');
     
+    // Kontrast-Berechnung (WCAG 2.1)
+    function getContrastRatio(color1, color2) {
+        const getLuminance = (hexColor) => {
+            // Hex zu RGB
+            const hex = hexColor.replace('#', '');
+            const r = parseInt(hex.substr(0, 2), 16) / 255;
+            const g = parseInt(hex.substr(2, 2), 16) / 255;
+            const b = parseInt(hex.substr(4, 2), 16) / 255;
+            
+            // Relative Luminanz berechnen
+            const rsRGB = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+            const gsRGB = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+            const bsRGB = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+            
+            return 0.2126 * rsRGB + 0.7152 * gsRGB + 0.0722 * bsRGB;
+        };
+        
+        const lum1 = getLuminance(color1);
+        const lum2 = getLuminance(color2);
+        
+        const lighter = Math.max(lum1, lum2);
+        const darker = Math.min(lum1, lum2);
+        
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+    
     // Preview Update Funktion
     function updatePreview() {
         const previewBox = $('#preview-box');
@@ -37,9 +63,8 @@ jQuery(function($) {
         };
         
         // Hintergrundfarbe
-        if (colorInput.val()) {
-            styles.backgroundColor = colorInput.val();
-        }
+        const bgColor = colorInput.val() || '#f5f5f5';
+        styles.backgroundColor = bgColor;
         
         // Textfarbe bestimmen
         let textColor = '#333';
@@ -78,7 +103,52 @@ jQuery(function($) {
             'text-decoration': 'underline'
         });
         
+        // Kontrast-Prüfung (WCAG AA)
+        let warnings = [];
+        
+        // Text-Kontrast prüfen (WCAG AA: 4.5:1 für normalen Text)
+        const textContrast = getContrastRatio(bgColor, textColor);
+        if (textContrast < 4.5) {
+            warnings.push('⚠️ <strong>Text-Kontrast zu gering</strong>: ' + textContrast.toFixed(2) + ':1 (mindestens 4.5:1 für WCAG AA)');
+        }
+        
+        // Link-Kontrast prüfen
+        const linkContrast = getContrastRatio(bgColor, linkColor);
+        if (linkContrast < 4.5) {
+            warnings.push('⚠️ <strong>Link-Kontrast zu gering</strong>: ' + linkContrast.toFixed(2) + ':1 (mindestens 4.5:1 für WCAG AA)');
+        }
+        
+        // Link vs. Text Unterschied prüfen
+        if (linkColorInput.val() && linkColor !== textColor) {
+            const linkTextContrast = getContrastRatio(linkColor, textColor);
+            if (linkTextContrast < 3) {
+                warnings.push('💡 <strong>Link-Text-Unterschied gering</strong>: ' + linkTextContrast.toFixed(2) + ':1 (mindestens 3:1 empfohlen)');
+            }
+        }
+        
+        // Warnung anzeigen/verstecken
+        let warningContainer = $('#a11y-warning');
+        if (!warningContainer.length) {
+            warningContainer = $('<div id="a11y-warning" style="margin-top: 15px; padding: 12px; border-radius: 4px; font-size: 13px; line-height: 1.6;"></div>');
+            $('#extra-styles-preview-wrapper').append(warningContainer);
+        }
+        
+        if (warnings.length > 0) {
+            warningContainer.html(warnings.join('<br>')).css({
+                background: '#fff3cd',
+                border: '1px solid #ffc107',
+                color: '#856404'
+            }).show();
+        } else {
+            warningContainer.html('✅ <strong>Barrierefreiheit</strong>: Alle Kontraste erfüllen WCAG AA').css({
+                background: '#d4edda',
+                border: '1px solid #28a745',
+                color: '#155724'
+            }).show();
+        }
+        
         console.log('Preview updated with styles:', styles, 'Text color:', textColor, 'Link color:', linkColor);
+        console.log('Contrast - Text:', textContrast.toFixed(2), 'Link:', linkContrast.toFixed(2));
     }
     
     // Globale Funktion für externe Aufrufe
