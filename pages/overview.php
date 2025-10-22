@@ -392,7 +392,7 @@ if ('add' == $func || 'edit' == $func) {
     <div id="extra-styles-preview-wrapper">
         <div id="preview-box" style="padding: 30px; min-height: 200px; border-radius: 0; transition: all 0.3s ease; background: #f5f5f5; color: #333;">
             <h3 style="margin: 0 0 15px 0; font-size: 1.3em; font-weight: bold;">Beispiel Überschrift</h3>
-            <p style="margin: 0 0 10px 0; line-height: 1.5;">Dies ist ein Beispieltext um die Farben und Stile zu testen. Der Text sollte gut lesbar sein.</p>
+            <p style="margin: 0 0 10px 0; line-height: 1.5;">Dies ist ein Beispieltext um die Farben und Stile zu testen. Der Text sollte gut lesbar sein und <a href="#" onclick="return false;">hier ist ein Beispiel-Link</a> im Fließtext.</p>
             <p style="margin: 0;"><small style="font-size: 0.85em;">Kleingedruckter Text zur Überprüfung der Lesbarkeit.</small></p>
         </div>
     </div>
