@@ -14,6 +14,7 @@ extra_styles_slug = Slug (CSS-Klasse)
 extra_styles_type = Typ
 extra_styles_color = Hintergrundfarbe
 extra_styles_text_color = Textfarbe (optional)
+extra_styles_link_color = Linkfarbe (optional)
 extra_styles_border_color = Rahmenfarbe (optional)
 extra_styles_border_width = Rahmenstärke (px)
 extra_styles_border_radius = Rahmenradius (optional)

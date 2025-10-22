@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%extra_styles` (
     `type` varchar(50) NOT NULL COMMENT 'card, section, background, border',
     `color` varchar(7) NOT NULL DEFAULT '#ffffff',
     `text_color` varchar(7) DEFAULT NULL,
+    `link_color` varchar(7) DEFAULT NULL,
     `border_color` varchar(7) DEFAULT NULL,
     `border_width` int(2) DEFAULT 1,
     `border_radius` varchar(20) DEFAULT NULL,

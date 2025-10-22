@@ -18,8 +18,9 @@ jQuery(function($) {
         console.log('Updating preview...');
         
         // Inputs finden - mit verschiedenen Selektoren
-        const colorInput = $('input[id*="-color"]:not([id*="text"]):not([id*="border"])').first();
+        const colorInput = $('input[id*="-color"]:not([id*="text"]):not([id*="link"]):not([id*="border"])').first();
         const textColorInput = $('input[id*="text-color"]').first();
+        const linkColorInput = $('input[id*="link-color"]').first();
         const borderColorInput = $('input[id*="border-color"]').first();
         const borderWidthInput = $('input[id*="border-width"]').first();
         const borderRadiusInput = $('input[id*="border-radius"]').first();
@@ -65,9 +66,19 @@ jQuery(function($) {
         previewBox.css(styles);
         
         // Textfarbe auf ALLE Kindelemente anwenden (wichtig für h3, p, small etc.)
-        previewBox.find('*').css('color', textColor);
+        previewBox.find('*').not('a').css('color', textColor);
         
-        console.log('Preview updated with styles:', styles, 'Text color:', textColor);
+        // Linkfarbe separat anwenden
+        let linkColor = textColor; // Standard: gleich wie Text
+        if (linkColorInput.val()) {
+            linkColor = linkColorInput.val();
+        }
+        previewBox.find('a').css({
+            'color': linkColor,
+            'text-decoration': 'underline'
+        });
+        
+        console.log('Preview updated with styles:', styles, 'Text color:', textColor, 'Link color:', linkColor);
     }
     
     // Globale Funktion für externe Aufrufe

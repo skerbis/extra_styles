@@ -29,6 +29,7 @@ if ($func == 'export') {
                 'type' => $sql->getValue('type'),
                 'color' => $sql->getValue('color'),
                 'text_color' => $sql->getValue('text_color'),
+                'link_color' => $sql->getValue('link_color'),
                 'border_color' => $sql->getValue('border_color'),
                 'border_width' => $sql->getValue('border_width'),
                 'border_radius' => $sql->getValue('border_radius'),
@@ -76,6 +77,7 @@ if ($func == 'import' && $csrfToken->isValid()) {
                 'type' => $backupSql->getValue('type'),
                 'color' => $backupSql->getValue('color'),
                 'text_color' => $backupSql->getValue('text_color'),
+                'link_color' => $backupSql->getValue('link_color'),
                 'border_color' => $backupSql->getValue('border_color'),
                 'border_width' => $backupSql->getValue('border_width'),
                 'border_radius' => $backupSql->getValue('border_radius'),
@@ -113,6 +115,7 @@ if ($func == 'import' && $csrfToken->isValid()) {
                         $sql->setValue('type', $style['type']);
                         $sql->setValue('color', $style['color']);
                         $sql->setValue('text_color', $style['text_color'] ?? null);
+                        $sql->setValue('link_color', $style['link_color'] ?? null);
                         $sql->setValue('border_color', $style['border_color'] ?? null);
                         $sql->setValue('border_width', $style['border_width'] ?? 1);
                         $sql->setValue('border_radius', $style['border_radius'] ?? null);
@@ -129,6 +132,7 @@ if ($func == 'import' && $csrfToken->isValid()) {
                         $sql->setValue('type', $style['type']);
                         $sql->setValue('color', $style['color']);
                         $sql->setValue('text_color', $style['text_color'] ?? null);
+                        $sql->setValue('link_color', $style['link_color'] ?? null);
                         $sql->setValue('border_color', $style['border_color'] ?? null);
                         $sql->setValue('border_width', $style['border_width'] ?? 1);
                         $sql->setValue('border_radius', $style['border_radius'] ?? null);

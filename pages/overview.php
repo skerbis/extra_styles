@@ -55,6 +55,7 @@ if ('copy' == $func && $id > 0) {
             $sql->setValue('type', $original['type']);
             $sql->setValue('color', $original['color']);
             $sql->setValue('text_color', $original['text_color']);
+            $sql->setValue('link_color', $original['link_color']);
             $sql->setValue('border_color', $original['border_color']);
             $sql->setValue('border_width', $original['border_width']);
             $sql->setValue('border_radius', $original['border_radius']);
@@ -261,6 +262,12 @@ if ('add' == $func || 'edit' == $func) {
     $field = $form->addTextField('text_color');
     $field->setLabel($addon->i18n('extra_styles_text_color'));
     $field->setNotice('Optional: Hex-Code für Textfarbe');
+    $field->setAttribute('data-colorpicker', 'true');
+    
+    // Link Color
+    $field = $form->addTextField('link_color');
+    $field->setLabel($addon->i18n('extra_styles_link_color'));
+    $field->setNotice('Optional: Hex-Code für Linkfarbe (hebt Links vom Text ab)');
     $field->setAttribute('data-colorpicker', 'true');
     
     // Border Color

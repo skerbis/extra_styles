@@ -39,6 +39,7 @@ class CssGenerator
                     'type' => $sql->getValue('type'),
                     'color' => $sql->getValue('color'),
                     'text_color' => $sql->getValue('text_color'),
+                    'link_color' => $sql->getValue('link_color'),
                     'border_color' => $sql->getValue('border_color'),
                     'border_width' => $sql->getValue('border_width'),
                     'border_radius' => $sql->getValue('border_radius'),
@@ -74,6 +75,7 @@ class CssGenerator
         $type = $style['type'];
         $color = $style['color'];
         $textColor = $style['text_color'];
+        $linkColor = $style['link_color'];
         $borderColor = $style['border_color'];
         $borderWidth = $style['border_width'] ?? 1;
         $borderRadius = $style['border_radius'] ?? null;
@@ -99,7 +101,7 @@ class CssGenerator
                 }
                 $css[] = "}";
                 
-                // Überschriften und Links erben die Textfarbe
+                // Überschriften erben die Textfarbe
                 if ($textColor || $isLight) {
                     $inheritColor = $isLight ? '#fff' : $textColor;
                     $css[] = ".uk-card-{$slug} h1, .uk-card-{$slug} h2, .uk-card-{$slug} h3, .uk-card-{$slug} h4, .uk-card-{$slug} h5, .uk-card-{$slug} h6,";
@@ -107,8 +109,13 @@ class CssGenerator
                     $css[] = ".uk-card-{$slug} .uk-heading-small, .uk-card-{$slug} .uk-heading-medium, .uk-card-{$slug} .uk-heading-large, .uk-card-{$slug} .uk-heading-xlarge, .uk-card-{$slug} .uk-heading-2xlarge {";
                     $css[] = "    color: {$inheritColor};";
                     $css[] = "}";
+                }
+                
+                // Links: Verwende link_color falls gesetzt, sonst text_color/is_light
+                if ($linkColor || $textColor || $isLight) {
+                    $finalLinkColor = $linkColor ?: ($isLight ? '#fff' : $textColor);
                     $css[] = ".uk-card-{$slug} a:not(.uk-button):not(.uk-badge) {";
-                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "    color: {$finalLinkColor};";
                     $css[] = "    text-decoration: underline;";
                     $css[] = "}";
                     $css[] = ".uk-card-{$slug} a:not(.uk-button):not(.uk-badge):hover {";
@@ -136,7 +143,7 @@ class CssGenerator
                 }
                 $css[] = "}";
                 
-                // Überschriften und Links erben die Textfarbe
+                // Überschriften erben die Textfarbe
                 if ($textColor || $isLight) {
                     $inheritColor = $isLight ? '#fff' : $textColor;
                     $css[] = ".uk-section-{$slug} h1, .uk-section-{$slug} h2, .uk-section-{$slug} h3, .uk-section-{$slug} h4, .uk-section-{$slug} h5, .uk-section-{$slug} h6,";
@@ -144,8 +151,13 @@ class CssGenerator
                     $css[] = ".uk-section-{$slug} .uk-heading-small, .uk-section-{$slug} .uk-heading-medium, .uk-section-{$slug} .uk-heading-large, .uk-section-{$slug} .uk-heading-xlarge, .uk-section-{$slug} .uk-heading-2xlarge {";
                     $css[] = "    color: {$inheritColor};";
                     $css[] = "}";
+                }
+                
+                // Links: Verwende link_color falls gesetzt, sonst text_color/is_light
+                if ($linkColor || $textColor || $isLight) {
+                    $finalLinkColor = $linkColor ?: ($isLight ? '#fff' : $textColor);
                     $css[] = ".uk-section-{$slug} a:not(.uk-button):not(.uk-badge) {";
-                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "    color: {$finalLinkColor};";
                     $css[] = "    text-decoration: underline;";
                     $css[] = "}";
                     $css[] = ".uk-section-{$slug} a:not(.uk-button):not(.uk-badge):hover {";
@@ -168,7 +180,7 @@ class CssGenerator
                 }
                 $css[] = "}";
                 
-                // Überschriften und Links erben die Textfarbe
+                // Überschriften erben die Textfarbe
                 if ($textColor || $isLight) {
                     $inheritColor = $isLight ? '#fff' : $textColor;
                     $css[] = ".uk-background-{$slug} h1, .uk-background-{$slug} h2, .uk-background-{$slug} h3, .uk-background-{$slug} h4, .uk-background-{$slug} h5, .uk-background-{$slug} h6,";
@@ -176,8 +188,13 @@ class CssGenerator
                     $css[] = ".uk-background-{$slug} .uk-heading-small, .uk-background-{$slug} .uk-heading-medium, .uk-background-{$slug} .uk-heading-large, .uk-background-{$slug} .uk-heading-xlarge, .uk-background-{$slug} .uk-heading-2xlarge {";
                     $css[] = "    color: {$inheritColor};";
                     $css[] = "}";
+                }
+                
+                // Links: Verwende link_color falls gesetzt, sonst text_color/is_light
+                if ($linkColor || $textColor || $isLight) {
+                    $finalLinkColor = $linkColor ?: ($isLight ? '#fff' : $textColor);
                     $css[] = ".uk-background-{$slug} a:not(.uk-button):not(.uk-badge) {";
-                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "    color: {$finalLinkColor};";
                     $css[] = "    text-decoration: underline;";
                     $css[] = "}";
                     $css[] = ".uk-background-{$slug} a:not(.uk-button):not(.uk-badge):hover {";

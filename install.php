@@ -10,16 +10,16 @@ $table = rex::getTable('extra_styles');
 try {
     $checkSql = rex_sql::factory();
     
+    // link_color Spalte
+    $checkSql->setQuery("SHOW COLUMNS FROM `$table` LIKE 'link_color'");
+    if ($checkSql->getRows() == 0) {
+        $sql->setQuery("ALTER TABLE `$table` ADD `link_color` VARCHAR(7) DEFAULT NULL AFTER `text_color`");
+    }
+    
     // border_radius Spalte
     $checkSql->setQuery("SHOW COLUMNS FROM `$table` LIKE 'border_radius'");
     if ($checkSql->getRows() == 0) {
         $sql->setQuery("ALTER TABLE `$table` ADD `border_radius` VARCHAR(20) DEFAULT NULL AFTER `border_width`");
-    }
-    
-    // custom_css Spalte
-    $checkSql->setQuery("SHOW COLUMNS FROM `$table` LIKE 'custom_css'");
-    if ($checkSql->getRows() == 0) {
-        $sql->setQuery("ALTER TABLE `$table` ADD `custom_css` TEXT DEFAULT NULL AFTER `border_radius`");
     }
 } catch (rex_sql_exception $e) {
     // Ignorieren - Spalte existiert bereits oder Tabelle noch nicht vorhanden
