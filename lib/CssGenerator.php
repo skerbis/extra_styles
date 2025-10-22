@@ -99,6 +99,23 @@ class CssGenerator
                 }
                 $css[] = "}";
                 
+                // Überschriften und Links erben die Textfarbe
+                if ($textColor || $isLight) {
+                    $inheritColor = $isLight ? '#fff' : $textColor;
+                    $css[] = ".uk-card-{$slug} h1, .uk-card-{$slug} h2, .uk-card-{$slug} h3, .uk-card-{$slug} h4, .uk-card-{$slug} h5, .uk-card-{$slug} h6,";
+                    $css[] = ".uk-card-{$slug} .uk-h1, .uk-card-{$slug} .uk-h2, .uk-card-{$slug} .uk-h3, .uk-card-{$slug} .uk-h4, .uk-card-{$slug} .uk-h5, .uk-card-{$slug} .uk-h6,";
+                    $css[] = ".uk-card-{$slug} .uk-heading-small, .uk-card-{$slug} .uk-heading-medium, .uk-card-{$slug} .uk-heading-large, .uk-card-{$slug} .uk-heading-xlarge, .uk-card-{$slug} .uk-heading-2xlarge {";
+                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "}";
+                    $css[] = ".uk-card-{$slug} a:not(.uk-button):not(.uk-badge) {";
+                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "    text-decoration: underline;";
+                    $css[] = "}";
+                    $css[] = ".uk-card-{$slug} a:not(.uk-button):not(.uk-badge):hover {";
+                    $css[] = "    opacity: 0.8;";
+                    $css[] = "}";
+                }
+                
                 // Hover-Effekt für verlinkte Cards
                 $css[] = "a .uk-card-{$slug}:hover {";
                 $css[] = "    box-shadow: 0 14px 25px rgba(0,0,0,0.16);";
@@ -118,6 +135,23 @@ class CssGenerator
                     $css[] = "    color: #fff;";
                 }
                 $css[] = "}";
+                
+                // Überschriften und Links erben die Textfarbe
+                if ($textColor || $isLight) {
+                    $inheritColor = $isLight ? '#fff' : $textColor;
+                    $css[] = ".uk-section-{$slug} h1, .uk-section-{$slug} h2, .uk-section-{$slug} h3, .uk-section-{$slug} h4, .uk-section-{$slug} h5, .uk-section-{$slug} h6,";
+                    $css[] = ".uk-section-{$slug} .uk-h1, .uk-section-{$slug} .uk-h2, .uk-section-{$slug} .uk-h3, .uk-section-{$slug} .uk-h4, .uk-section-{$slug} .uk-h5, .uk-section-{$slug} .uk-h6,";
+                    $css[] = ".uk-section-{$slug} .uk-heading-small, .uk-section-{$slug} .uk-heading-medium, .uk-section-{$slug} .uk-heading-large, .uk-section-{$slug} .uk-heading-xlarge, .uk-section-{$slug} .uk-heading-2xlarge {";
+                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "}";
+                    $css[] = ".uk-section-{$slug} a:not(.uk-button):not(.uk-badge) {";
+                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "    text-decoration: underline;";
+                    $css[] = "}";
+                    $css[] = ".uk-section-{$slug} a:not(.uk-button):not(.uk-badge):hover {";
+                    $css[] = "    opacity: 0.8;";
+                    $css[] = "}";
+                }
                 break;
                 
             case 'background':
@@ -133,6 +167,23 @@ class CssGenerator
                     $css[] = "    color: #fff;";
                 }
                 $css[] = "}";
+                
+                // Überschriften und Links erben die Textfarbe
+                if ($textColor || $isLight) {
+                    $inheritColor = $isLight ? '#fff' : $textColor;
+                    $css[] = ".uk-background-{$slug} h1, .uk-background-{$slug} h2, .uk-background-{$slug} h3, .uk-background-{$slug} h4, .uk-background-{$slug} h5, .uk-background-{$slug} h6,";
+                    $css[] = ".uk-background-{$slug} .uk-h1, .uk-background-{$slug} .uk-h2, .uk-background-{$slug} .uk-h3, .uk-background-{$slug} .uk-h4, .uk-background-{$slug} .uk-h5, .uk-background-{$slug} .uk-h6,";
+                    $css[] = ".uk-background-{$slug} .uk-heading-small, .uk-background-{$slug} .uk-heading-medium, .uk-background-{$slug} .uk-heading-large, .uk-background-{$slug} .uk-heading-xlarge, .uk-background-{$slug} .uk-heading-2xlarge {";
+                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "}";
+                    $css[] = ".uk-background-{$slug} a:not(.uk-button):not(.uk-badge) {";
+                    $css[] = "    color: {$inheritColor};";
+                    $css[] = "    text-decoration: underline;";
+                    $css[] = "}";
+                    $css[] = ".uk-background-{$slug} a:not(.uk-button):not(.uk-badge):hover {";
+                    $css[] = "    opacity: 0.8;";
+                    $css[] = "}";
+                }
                 break;
                 
             case 'border':
