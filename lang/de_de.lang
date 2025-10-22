@@ -1,0 +1,76 @@
+extra_styles_title = Extra Styles
+extra_styles_caption = Übersicht Styles
+extra_styles_overview = Übersicht
+extra_styles_add = Stil hinzufügen
+extra_styles_add_title = Stil hinzufügen
+extra_styles_edit = Stil bearbeiten
+extra_styles_edit_title = Stil bearbeiten
+extra_styles_delete = Stil löschen
+extra_styles_deleted = Stil wurde gelöscht
+extra_styles_saved = Stil wurde gespeichert
+extra_styles_copied = Stil wurde kopiert
+extra_styles_name = Name
+extra_styles_slug = Slug (CSS-Klasse)
+extra_styles_type = Typ
+extra_styles_color = Hintergrundfarbe
+extra_styles_text_color = Textfarbe (optional)
+extra_styles_border_color = Rahmenfarbe (optional)
+extra_styles_border_width = Rahmenstärke (px)
+extra_styles_border_radius = Rahmenradius (optional)
+extra_styles_is_light = Helle Schrift
+extra_styles_priority = Reihenfolge
+extra_styles_status = Status
+extra_styles_active = Aktiv
+extra_styles_inactive = Inaktiv
+extra_styles_preview = Vorschau
+extra_styles_actions = Aktionen
+extra_styles_no_styles = Noch keine Stile vorhanden
+extra_styles_create_first = Erstellen Sie Ihren ersten Stil!
+extra_styles_functions = Funktionen
+extra_styles_css_regenerate = CSS regenerieren
+extra_styles_copy = Kopieren
+extra_styles_no_rows = Keine Styles vorhanden
+
+extra_styles_type_card = Card (Kachel)
+extra_styles_type_section = Section (Abschnitt)
+extra_styles_type_background = Background (Hintergrund)
+extra_styles_type_border = Border (nur Rahmen)
+
+
+extra_styles_help_title = Hilfe zu Extra Styles
+extra_styles_help_intro = Mit diesem AddOn können Sie zusätzliche Farb- und Stiloptionen für UIKit3-Module erstellen.
+extra_styles_help_name = Geben Sie einen sprechenden Namen ein, z.B. "Dunkelblau", "Akzentfarbe".
+extra_styles_help_slug = Der Slug wird automatisch aus dem Namen generiert und als CSS-Klasse verwendet (z.B. "dunkelblau").
+extra_styles_help_type = Wählen Sie den Typ: Card für uk-card-*, Section für uk-section-*, Background für uk-background-*, Border für Rahmen.
+extra_styles_help_color = Die Hauptfarbe für Hintergrund oder Rahmen (Hex-Code).
+extra_styles_help_preview = Die Vorschau zeigt live, wie Ihr Stil aussieht.
+
+extra_styles_css_generated = CSS wurde erfolgreich generiert
+extra_styles_css_error = Fehler beim Generieren der CSS-Datei
+
+extra_styles_confirm_delete = Möchten Sie diesen Stil wirklich löschen?
+extra_styles_fallback_info = Bei Löschung wird automatisch auf "default" zurückgefallen.
+
+extra_styles_settings = Einstellungen
+extra_styles_settings_title = Extra Styles Einstellungen
+extra_styles_settings_enabled_types = Aktivierte Style-Typen
+extra_styles_settings_saved = Einstellungen gespeichert
+extra_styles_type_card_enabled = Cards aktivieren
+extra_styles_type_section_enabled = Sections aktivieren
+extra_styles_type_background_enabled = Backgrounds aktivieren
+extra_styles_type_border_enabled = Borders aktivieren
+extra_styles_settings_description = Hier können Sie festlegen, welche Style-Typen in der Verwaltung verfügbar sein sollen.
+
+extra_styles_import_export = Import / Export
+extra_styles_export = Exportieren
+extra_styles_export_title = Stile exportieren
+extra_styles_export_description = Exportieren Sie alle Stildefinitionen als JSON-Datei.
+extra_styles_export_button = JSON herunterladen
+extra_styles_import = Importieren
+extra_styles_import_title = Stile importieren
+extra_styles_import_description = Importieren Sie Stildefinitionen aus einer JSON-Datei.
+extra_styles_import_file = JSON-Datei
+extra_styles_import_button = Importieren
+extra_styles_import_success = {0} Stile erfolgreich importiert
+extra_styles_import_error = Fehler beim Importieren
+extra_styles_import_invalid = Ungültige JSON-Datei

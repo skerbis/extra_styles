@@ -1,0 +1,267 @@
+<?php
+/**
+ * Extra Styles - Übersichtsseite
+ */
+
+use ExtraStyles\ExtraStyles;
+use ExtraStyles\CssGenerator;
+
+$addon = rex_addon::get('extra_styles');
+
+// Aktionen
+$func = rex_request('func', 'string');
+$id = rex_request('id', 'int');
+
+// Löschen
+if ($func === 'delete' && $id > 0) {
+    if (ExtraStyles::delete($id)) {
+        echo rex_view::success($addon->i18n('extra_styles_deleted'));
+    } else {
+        echo rex_view::error('Fehler beim Löschen');
+    }
+    $func = '';
+}
+
+// CSS regenerieren (manuell)
+if ($func === 'regenerate') {
+    if (CssGenerator::generate()) {
+        echo rex_view::success($addon->i18n('extra_styles_css_generated'));
+    } else {
+        echo rex_view::error($addon->i18n('extra_styles_css_error'));
+    }
+    $func = '';
+}
+
+// Übersicht anzeigen
+if ($func === '') {
+    ?>
+    
+    <!-- Hilfe-Modal -->
+    <div id="help-modal" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title"><?= $addon->i18n('extra_styles_help_title') ?></h2>
+            </div>
+            <div class="uk-modal-body">
+                <p><?= $addon->i18n('extra_styles_help_intro') ?></p>
+                
+                <h3>Felder</h3>
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt><?= $addon->i18n('extra_styles_name') ?></dt>
+                    <dd><?= $addon->i18n('extra_styles_help_name') ?></dd>
+                    
+                    <dt><?= $addon->i18n('extra_styles_slug') ?></dt>
+                    <dd><?= $addon->i18n('extra_styles_help_slug') ?></dd>
+                    
+                    <dt><?= $addon->i18n('extra_styles_type') ?></dt>
+                    <dd><?= $addon->i18n('extra_styles_help_type') ?></dd>
+                    
+                    <dt><?= $addon->i18n('extra_styles_color') ?></dt>
+                    <dd><?= $addon->i18n('extra_styles_help_color') ?></dd>
+                </dl>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Schließen</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="uk-margin">
+        <a href="<?= rex_url::currentBackendPage(['func' => 'add']) ?>" class="uk-button uk-button-primary">
+            <i class="rex-icon fa-plus"></i> <?= $addon->i18n('extra_styles_add') ?>
+        </a>
+        
+        <a href="<?= rex_url::currentBackendPage(['func' => 'regenerate']) ?>" class="uk-button uk-button-default">
+            <i class="rex-icon fa-sync"></i> CSS regenerieren
+        </a>
+        
+        <button class="uk-button uk-button-default" type="button" uk-toggle="target: #help-modal">
+            <i class="rex-icon fa-question-circle"></i> Hilfe
+        </button>
+    </div>
+    
+    <?php
+    $styles = ExtraStyles::getAll();
+    
+    if (empty($styles)) {
+        echo rex_view::info($addon->i18n('extra_styles_no_styles') . '<br>' . $addon->i18n('extra_styles_create_first'));
+    } else {
+        ?>
+        <table class="uk-table uk-table-striped uk-table-hover">
+            <thead>
+                <tr>
+                    <th width="50">ID</th>
+                    <th><?= $addon->i18n('extra_styles_name') ?></th>
+                    <th><?= $addon->i18n('extra_styles_slug') ?></th>
+                    <th><?= $addon->i18n('extra_styles_type') ?></th>
+                    <th width="200"><?= $addon->i18n('extra_styles_preview') ?></th>
+                    <th><?= $addon->i18n('extra_styles_status') ?></th>
+                    <th width="150"><?= $addon->i18n('extra_styles_actions') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($styles as $style): ?>
+                    <tr>
+                        <td><?= $style['id'] ?></td>
+                        <td><strong><?= htmlspecialchars($style['name']) ?></strong></td>
+                        <td><code><?= htmlspecialchars($style['slug']) ?></code></td>
+                        <td><?= $addon->i18n('extra_styles_type_' . $style['type']) ?></td>
+                        <td>
+                            <?php
+                            $previewStyle = 'background-color: ' . $style['color'] . '; padding: 10px; border-radius: 4px;';
+                            if ($style['text_color']) {
+                                $previewStyle .= ' color: ' . $style['text_color'] . ';';
+                            } elseif ($style['is_light']) {
+                                $previewStyle .= ' color: #fff;';
+                            }
+                            if ($style['border_color']) {
+                                $previewStyle .= ' border: ' . $style['border_width'] . 'px solid ' . $style['border_color'] . ';';
+                            }
+                            ?>
+                            <div style="<?= $previewStyle ?>">
+                                <?= htmlspecialchars($style['name']) ?>
+                            </div>
+                        </td>
+                        <td>
+                            <?php if ($style['status']): ?>
+                                <span class="uk-label uk-label-success"><?= $addon->i18n('extra_styles_active') ?></span>
+                            <?php else: ?>
+                                <span class="uk-label"><?= $addon->i18n('extra_styles_inactive') ?></span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="<?= rex_url::currentBackendPage(['func' => 'edit', 'id' => $style['id']]) ?>" class="uk-button uk-button-small uk-button-primary">
+                                <i class="rex-icon fa-edit"></i> <?= $addon->i18n('extra_styles_edit') ?>
+                            </a>
+                            <a href="<?= rex_url::currentBackendPage(['func' => 'delete', 'id' => $style['id']]) ?>" 
+                               class="uk-button uk-button-small uk-button-danger"
+                               onclick="return confirm('<?= $addon->i18n('extra_styles_confirm_delete') ?>')">
+                                <i class="rex-icon fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php
+    }
+}
+
+// Formular (Add/Edit)
+if ($func === 'add' || $func === 'edit') {
+    $formTitle = $func === 'add' ? $addon->i18n('extra_styles_add') : $addon->i18n('extra_styles_edit');
+    
+    $form = rex_form::factory(rex::getTable('extra_styles'), '', 'id=' . $id);
+    $form->setApplyUrl(rex_url::currentBackendPage());
+    $form->setEditMode($func === 'edit');
+    
+    // Extension Point für Pre-Save (Slug generieren)
+    rex_extension::register('REX_FORM_CONTROL_FIELDS', function(rex_extension_point $ep) use ($form) {
+        if ($form !== $ep->getParam('form')) {
+            return;
+        }
+        
+        $sql = $ep->getParam('form')->getSql();
+        
+        // Slug generieren wenn leer
+        if (empty($sql->getValue('slug')) && !empty($sql->getValue('name'))) {
+            $slug = ExtraStyles::generateSlug($sql->getValue('name'));
+            $sql->setValue('slug', $slug);
+        }
+        
+        // Timestamps und User setzen
+        if ($form->isEditMode()) {
+            $sql->setValue('updatedate', date('Y-m-d H:i:s'));
+            $sql->setValue('updateuser', rex::getUser()->getValue('login'));
+        } else {
+            $sql->setValue('createdate', date('Y-m-d H:i:s'));
+            $sql->setValue('updatedate', date('Y-m-d H:i:s'));
+            $sql->setValue('createuser', rex::getUser()->getValue('login'));
+            $sql->setValue('updateuser', rex::getUser()->getValue('login'));
+        }
+    });
+    
+    // Extension Point für After-Save (CSS regenerieren)
+    rex_extension::register('REX_FORM_SAVED', function(rex_extension_point $ep) use ($form) {
+        if ($form !== $ep->getParam('form')) {
+            return;
+        }
+        CssGenerator::generate();
+    });
+    
+    // Name
+    $field = $form->addTextField('name');
+    $field->setLabel($addon->i18n('extra_styles_name'));
+    $field->getValidator()->add('notEmpty', $addon->i18n('extra_styles_name') . ' ist erforderlich');
+    
+    // Slug
+    $field = $form->addTextField('slug');
+    $field->setLabel($addon->i18n('extra_styles_slug'));
+    $field->setNotice('Automatisch generiert, wenn leer gelassen');
+    
+    // Type
+    $field = $form->addSelectField('type');
+    $field->setLabel($addon->i18n('extra_styles_type'));
+    $select = $field->getSelect();
+    $select->addOptions([
+        'card' => $addon->i18n('extra_styles_type_card'),
+        'section' => $addon->i18n('extra_styles_type_section'),
+        'background' => $addon->i18n('extra_styles_type_background'),
+        'border' => $addon->i18n('extra_styles_type_border'),
+    ]);
+    $field->getValidator()->add('notEmpty', $addon->i18n('extra_styles_type') . ' ist erforderlich');
+    
+    // Color
+    $field = $form->addTextField('color');
+    $field->setLabel($addon->i18n('extra_styles_color'));
+    $field->setAttribute('class', 'form-control color-picker');
+    $field->setAttribute('data-colorpicker', 'true');
+    
+    // Text Color
+    $field = $form->addTextField('text_color');
+    $field->setLabel($addon->i18n('extra_styles_text_color'));
+    $field->setAttribute('class', 'form-control color-picker');
+    $field->setAttribute('data-colorpicker', 'true');
+    
+    // Border Color
+    $field = $form->addTextField('border_color');
+    $field->setLabel($addon->i18n('extra_styles_border_color'));
+    $field->setAttribute('class', 'form-control color-picker');
+    $field->setAttribute('data-colorpicker', 'true');
+    
+    // Border Width
+    $field = $form->addTextField('border_width');
+    $field->setLabel($addon->i18n('extra_styles_border_width'));
+    $field->setAttribute('type', 'number');
+    $field->setAttribute('min', '1');
+    $field->setAttribute('max', '20');
+    
+    // Is Light
+    $field = $form->addCheckboxField('is_light');
+    $field->setLabel($addon->i18n('extra_styles_is_light'));
+    $field->addOption('Ja', 1);
+    
+    // Priority
+    $field = $form->addTextField('priority');
+    $field->setLabel($addon->i18n('extra_styles_priority'));
+    $field->setAttribute('type', 'number');
+    
+    // Status
+    $field = $form->addCheckboxField('status');
+    $field->setLabel($addon->i18n('extra_styles_status'));
+    $field->addOption('Aktiv', 1);
+    
+    // Preview
+    $form->addRawField('
+        <div id="style-preview" class="uk-card uk-card-default uk-card-body uk-margin-top">
+            <h3>' . $addon->i18n('extra_styles_preview') . '</h3>
+            <div id="preview-box" style="padding: 20px; border-radius: 4px; transition: all 0.3s;">
+                <h4>Beispiel-Überschrift</h4>
+                <p>Dies ist ein Beispieltext, um zu zeigen, wie Ihr Stil aussehen wird.</p>
+            </div>
+        </div>
+    ');
+    
+    echo $form->get();
+}

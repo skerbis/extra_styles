@@ -1,0 +1,24 @@
+package: extra_styles
+version: '1.0.0'
+author: REDAXO AddOn
+supportpage: https://github.com/redaxo/redaxo
+
+autoload:
+    classes:
+        ExtraStyles\: lib/
+
+page:
+    title: 'translate:extra_styles_title'
+    perm: extra_styles[]
+    icon: rex-icon fa-palette
+    subpages:
+        overview: { title: 'translate:extra_styles_overview' }
+        settings: { title: 'translate:extra_styles_settings' }
+        import_export: { title: 'translate:extra_styles_import_export' }
+        add: { title: 'translate:extra_styles_add', hidden: true }
+        edit: { title: 'translate:extra_styles_edit', hidden: true }
+        
+requires:
+    redaxo: '^5.13'
+    php:
+        version: '^8.0'

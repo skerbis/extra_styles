@@ -1,0 +1,76 @@
+extra_styles_title = Extra Styles
+extra_styles_caption = Styles Overview
+extra_styles_overview = Overview
+extra_styles_add = Add Style
+extra_styles_add_title = Add Style
+extra_styles_edit = Edit Style
+extra_styles_edit_title = Edit Style
+extra_styles_delete = Delete Style
+extra_styles_deleted = Style deleted
+extra_styles_saved = Style saved
+extra_styles_copied = Style copied
+extra_styles_name = Name
+extra_styles_slug = Slug (CSS class)
+extra_styles_type = Type
+extra_styles_color = Background Color
+extra_styles_text_color = Text Color (optional)
+extra_styles_border_color = Border Color (optional)
+extra_styles_border_width = Border Width (px)
+extra_styles_border_radius = Border Radius (optional)
+extra_styles_is_light = Light Text
+extra_styles_priority = Priority
+extra_styles_status = Status
+extra_styles_active = Active
+extra_styles_inactive = Inactive
+extra_styles_preview = Preview
+extra_styles_actions = Actions
+extra_styles_no_styles = No styles yet
+extra_styles_create_first = Create your first style!
+extra_styles_functions = Functions
+extra_styles_css_regenerate = Regenerate CSS
+extra_styles_copy = Copy
+extra_styles_no_rows = No styles available
+
+extra_styles_type_card = Card
+extra_styles_type_section = Section
+extra_styles_type_background = Background
+extra_styles_type_border = Border only
+
+
+extra_styles_help_title = Extra Styles Help
+extra_styles_help_intro = This addon allows you to create additional color and style options for UIKit3 modules.
+extra_styles_help_name = Enter a descriptive name, e.g. "Dark Blue", "Accent Color".
+extra_styles_help_slug = The slug is automatically generated from the name and used as CSS class.
+extra_styles_help_type = Choose type: Card for uk-card-*, Section for uk-section-*, Background for uk-background-*, Border for borders.
+extra_styles_help_color = The main color for background or border (hex code).
+extra_styles_help_preview = The preview shows live how your style looks.
+
+extra_styles_css_generated = CSS generated successfully
+extra_styles_css_error = Error generating CSS file
+
+extra_styles_confirm_delete = Do you really want to delete this style?
+extra_styles_fallback_info = On deletion, it will automatically fall back to "default".
+
+extra_styles_settings = Settings
+extra_styles_settings_title = Extra Styles Settings
+extra_styles_settings_enabled_types = Enabled Style Types
+extra_styles_settings_saved = Settings saved
+extra_styles_type_card_enabled = Enable Cards
+extra_styles_type_section_enabled = Enable Sections
+extra_styles_type_background_enabled = Enable Backgrounds
+extra_styles_type_border_enabled = Enable Borders
+extra_styles_settings_description = Here you can define which style types should be available in the management interface.
+
+extra_styles_import_export = Import / Export
+extra_styles_export = Export
+extra_styles_export_title = Export Styles
+extra_styles_export_description = Export all style definitions as JSON file.
+extra_styles_export_button = Download JSON
+extra_styles_import = Import
+extra_styles_import_title = Import Styles
+extra_styles_import_description = Import style definitions from JSON file.
+extra_styles_import_file = JSON File
+extra_styles_import_button = Import
+extra_styles_import_success = {0} styles successfully imported
+extra_styles_import_error = Import failed
+extra_styles_import_invalid = Invalid JSON file

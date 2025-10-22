@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%extra_styles` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+    `slug` varchar(255) NOT NULL,
+    `type` varchar(50) NOT NULL COMMENT 'card, section, background, border',
+    `color` varchar(7) NOT NULL DEFAULT '#ffffff',
+    `text_color` varchar(7) DEFAULT NULL,
+    `border_color` varchar(7) DEFAULT NULL,
+    `border_width` int(2) DEFAULT 1,
+    `border_radius` varchar(20) DEFAULT NULL,
+    `is_light` tinyint(1) DEFAULT 0,
+    `priority` int(10) DEFAULT 100,
+    `status` tinyint(1) DEFAULT 1,
+    `createdate` datetime NOT NULL,
+    `updatedate` datetime NOT NULL,
+    `createuser` varchar(255) NOT NULL,
+    `updateuser` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
