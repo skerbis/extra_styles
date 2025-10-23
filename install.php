@@ -70,6 +70,8 @@ if (!$this->hasConfig('info_button_icon')) {
     $this->setConfig('info_menu_card_class', 'uk-card-primary');
     $this->setConfig('info_menu_items', []);
     $this->setConfig('logo_text', rex::getServerName());
+    $this->setConfig('social_media_links', []);
+    $this->setConfig('enable_social_media_links', true);
 }
 
 // Setze Default Custom CSS (nur bei Neuinstallation)

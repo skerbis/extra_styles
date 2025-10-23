@@ -16,6 +16,10 @@ if ($func == 'save' && $csrfToken->isValid()) {
     $enabledTypes = rex_post('enabled_types', 'array', []);
     $customCss = rex_post('custom_css', 'string', '');
     
+    // Save Site Defaults availability
+    $enableSocialMediaLinks = rex_post('enable_social_media_links', 'boolean', false);
+    $addon->setConfig('enable_social_media_links', $enableSocialMediaLinks);
+    
     // Save to addon config
     $addon->setConfig('enabled_types', [
         'card' => in_array('card', $enabledTypes),
@@ -45,6 +49,7 @@ $enabledTypes = $addon->getConfig('enabled_types', [
 ]);
 
 $customCss = $addon->getConfig('custom_css', '');
+$enableSocialMediaLinks = $addon->getConfig('enable_social_media_links', true);
 
 ?>
 
@@ -103,6 +108,27 @@ $customCss = $addon->getConfig('custom_css', '');
                             <?= $addon->i18n('extra_styles_type_border_enabled') ?>
                         </label>
                         <p class="help-block">uk-border-* Klassen nur für Rahmen</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <section class="rex-page-section">
+        <div class="panel panel-default">
+            <header class="panel-heading">
+                <div class="panel-title"><?= $addon->i18n('extra_styles_site_defaults_availability') ?></div>
+            </header>
+            <div class="panel-body">
+                
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="enable_social_media_links" value="1" <?= $enableSocialMediaLinks ? 'checked' : '' ?> />
+                            <?= $addon->i18n('extra_styles_enable_social_media_links') ?>
+                        </label>
+                        <p class="help-block">Social Media Links im Backend unter Site Defaults verfügbar machen</p>
                     </div>
                 </div>
                 

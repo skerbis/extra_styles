@@ -230,7 +230,11 @@ $content .= '
         <button type="button" class="btn btn-default" id="add-menu-item">
             <i class="rex-icon fa-plus"></i> Menüpunkt hinzufügen
         </button>
-    </fieldset>
+    </fieldset>';
+
+// Social Media Links nur anzeigen, wenn aktiviert
+if ($addon->getConfig('enable_social_media_links', true)) {
+    $content .= '
     
     <fieldset class="form-horizontal">
         <legend>' . $addon->i18n('extra_styles_social_media_title') . '</legend>
@@ -295,7 +299,10 @@ $content .= '
         <button type="button" class="btn btn-default" id="add-social-link">
             <i class="rex-icon fa-plus"></i> Social Media Link hinzufügen
         </button>
-    </fieldset>
+    </fieldset>';
+}
+
+$content .= '
     
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
@@ -372,7 +379,11 @@ jQuery(function($) {
     // Menüpunkt entfernen
     $(document).on("click", ".remove-menu-item", function() {
         $(this).closest(".menu-item-panel").remove();
-    });
+    });';
+
+// Social Media JavaScript nur wenn aktiviert
+if ($addon->getConfig('enable_social_media_links', true)) {
+    $content .= '
     
     // Social Media Link hinzufügen
     let socialLinkIndex = ' . count($socialMediaLinks) . ';
@@ -431,7 +442,10 @@ jQuery(function($) {
     // Social Link entfernen
     $(document).on("click", ".remove-social-link", function() {
         $(this).closest(".social-link-panel").remove();
-    });
+    });';
+}
+
+$content .= '
 });
 </script>
 

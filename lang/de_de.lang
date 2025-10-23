@@ -103,3 +103,6 @@ extra_styles_logo_text = Logo-Text
 
 extra_styles_social_media_title = Social Media Links
 extra_styles_social_media_description = Links zu Social Media Profilen für den Footer (nebeneinander, zentriert mit UIKit3 Icons)
+
+extra_styles_site_defaults_availability = Site Defaults Verfügbarkeit
+extra_styles_enable_social_media_links = Social Media Links aktivieren
