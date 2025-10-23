@@ -33,7 +33,7 @@ class SiteDefaults
         $ratio = str_replace(',', '.', $ratio);
         
         $html = '<div>';
-        $html .= '<button class="uk-light" type="button" uk-icon="icon: ' . htmlspecialchars($icon) . '; ratio: ' . htmlspecialchars($ratio) . '">';
+        $html .= '<button class="uk-margin-right uk-light" type="button" uk-icon="icon: ' . htmlspecialchars($icon) . '; ratio: ' . htmlspecialchars($ratio) . '">';
         $html .= '<span class="uk-hidden">' . htmlspecialchars($hiddenText) . '</span>';
         $html .= '</button>';
         $html .= '<div uk-drop="mode: click">';
