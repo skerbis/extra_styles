@@ -230,11 +230,18 @@ CssGenerator::generate();
 
 ## Import / Export
 
+Mit der Import/Export-Funktion können Sie alle Stildefinitionen **und** die individuellen Admin-Styles als JSON-Datei sichern und zwischen Installationen austauschen.
+
 ### Styles exportieren
 
 1. Navigiere zu **Import / Export**
 2. Klicke auf **JSON herunterladen**
-3. Eine JSON-Datei mit allen Styles wird heruntergeladen
+3. Eine JSON-Datei mit allen Styles und Custom CSS wird heruntergeladen
+
+**Export enthält:**
+- ✅ Alle Stildefinitionen (Card, Section, Background, Border)
+- ✅ Individuelle Admin-Styles (Custom CSS)
+- ✅ Alle Einstellungen (Farben, Textfarben, Linkfarben, etc.)
 
 ### Styles importieren
 
@@ -245,8 +252,10 @@ CssGenerator::generate();
 **Wichtig**: 
 - Vor dem Import wird automatisch ein **Backup** erstellt
 - Backups werden in `data/addons/extra_styles/backups/` gespeichert
+- Backups enthalten ebenfalls die Custom CSS
 - Existierende Styles (gleicher Slug) werden aktualisiert
 - Neue Styles werden hinzugefügt
+- Custom CSS wird überschrieben (wenn im Import vorhanden)
 
 ## Style-Typen
 

@@ -15,6 +15,7 @@ page:
         overview: { title: 'translate:extra_styles_overview' }
         settings: { title: 'translate:extra_styles_settings' }
         import_export: { title: 'translate:extra_styles_import_export' }
+        help: { title: 'translate:help', subPath: README.md, itemClass: 'pull-right' }
         add: { title: 'translate:extra_styles_add', hidden: true }
         edit: { title: 'translate:extra_styles_edit', hidden: true }
         

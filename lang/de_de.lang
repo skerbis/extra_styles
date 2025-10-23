@@ -66,6 +66,8 @@ extra_styles_custom_css_title = Individuelle CSS-Stile
 extra_styles_custom_css_label = Eigene CSS-Regeln
 extra_styles_custom_css_description = Hier können Sie individuelle CSS-Regeln eingeben. Diese werden am Anfang der generierten CSS-Datei eingefügt und stehen im gesamten Frontend zur Verfügung.
 
+extra_styles_help = Hilfe
+
 extra_styles_import_export = Import / Export
 extra_styles_export = Exportieren
 extra_styles_export_title = Stile exportieren

@@ -39,3 +39,36 @@ if (!file_exists($customCssPath)) {
 
 // Setze Config-Werte
 $this->setConfig('css_generated', false);
+
+// Setze Default Custom CSS (nur bei Neuinstallation)
+if (!$this->hasConfig('custom_css')) {
+    $defaultCss = <<<'CSS'
+/* NAVBAR LINK-Farbe */
+.uk-light .uk-navbar-nav > li > a {color: #fff;}
+
+
+.aspect-ratio-16-9 {
+  display: flow-root;
+  position: relative;
+}
+
+.aspect-ratio-16-9::before {
+  content: '';
+  float: left;
+  padding-bottom: 56.25%;
+}
+@media screen and (max-width: 1499px) {
+  img.logo { height: 100px; position: absolute; left: 4%; top: 0px; z-index: 20}   
+ }    
+@media screen and (max-width: 960px) {
+         img.logo { height: 80px; position: absolute; left: 4%; top: 0px; z-index: 20}   
+}  
+@media screen and (min-width: 1500px) {        
+        img.logo { height: 130px; position: absolute; left: 4%; top: 0px; z-index: 20}
+}   
+
+/* ENDE - DEFAULTS */
+CSS;
+    $this->setConfig('custom_css', $defaultCss);
+}
+

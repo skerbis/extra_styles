@@ -40,7 +40,14 @@ if ($func == 'export') {
             $sql->next();
         }
         
-        $json = json_encode($styles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        // Custom CSS hinzufügen
+        $addon = rex_addon::get('extra_styles');
+        $exportData = [
+            'styles' => $styles,
+            'custom_css' => $addon->getConfig('custom_css', ''),
+        ];
+        
+        $json = json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $filename = 'extra_styles_' . date('Y-m-d_H-i-s') . '.json';
         
         header('Content-Type: application/json; charset=utf-8');
@@ -88,14 +95,29 @@ if ($func == 'import' && $csrfToken->isValid()) {
             $backupSql->next();
         }
         
-        $backupJson = json_encode($backupStyles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        // Custom CSS auch im Backup speichern
+        $backupData = [
+            'styles' => $backupStyles,
+            'custom_css' => $addon->getConfig('custom_css', ''),
+        ];
+        
+        $backupJson = json_encode($backupData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $backupFile = $backupDir . 'backup_' . date('Y-m-d_H-i-s') . '.json';
         rex_file::put($backupFile, $backupJson);
         
         $json = file_get_contents($_FILES['import_file']['tmp_name']);
-        $styles = json_decode($json, true);
+        $data = json_decode($json, true);
         
-        if (is_array($styles)) {
+        if (is_array($data)) {
+            // Neues Format mit custom_css oder altes Format (nur Array)
+            $styles = isset($data['styles']) ? $data['styles'] : $data;
+            $customCss = isset($data['custom_css']) ? $data['custom_css'] : null;
+            
+            // Custom CSS importieren wenn vorhanden
+            if ($customCss !== null) {
+                $addon->setConfig('custom_css', $customCss);
+            }
+            
             $imported = 0;
             
             foreach ($styles as $style) {
