@@ -555,6 +555,13 @@ use ExtraStyles\SiteDefaults;
 // ODER ohne use:
 <?= ExtraStyles\SiteDefaults::getLogoText() ?>
 
+// Card-Klasse für Info-Menü auslesen
+$cardClass = SiteDefaults::getInfoMenuCardClass();
+// Gibt z.B. "uk-card-primary" oder "uk-card-mein-stil" zurück
+
+// Mit eigenem Fallback
+$cardClass = SiteDefaults::getInfoMenuCardClass('uk-card-secondary');
+
 // Einzelne Config-Werte
 $buttonIcon = SiteDefaults::getConfig('info_button_icon');
 $buttonRatio = SiteDefaults::getConfig('info_button_ratio', '1.5');

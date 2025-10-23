@@ -26,13 +26,8 @@ class SiteDefaults
         $ratio = $addon->getConfig('info_button_ratio', '1.5');
         $hiddenText = $addon->getConfig('info_button_hidden_text', 'Mehr Informationen');
         $title = $addon->getConfig('info_button_title', 'Mehr Informationen');
-        $cardClass = $addon->getConfig('info_menu_card_class', 'uk-card-primary');
+        $cardClass = self::getInfoMenuCardClass();
         $menuItems = $addon->getConfig('info_menu_items', []);
-        
-        // Fallback wenn leer
-        if (empty(trim($cardClass))) {
-            $cardClass = 'uk-card-primary';
-        }
         
         // Ratio mit Punkt statt Komma sicherstellen
         $ratio = str_replace(',', '.', $ratio);
@@ -89,6 +84,29 @@ class SiteDefaults
     {
         $addon = rex_addon::get('extra_styles');
         return $addon->getConfig('logo_text', \rex::getServerName());
+    }
+    
+    /**
+     * Gibt die Card-Klasse für das Info-Menü zurück
+     * 
+     * Verwendung im Template:
+     * $cardClass = ExtraStyles\SiteDefaults::getInfoMenuCardClass();
+     * $cardClass = ExtraStyles\SiteDefaults::getInfoMenuCardClass('uk-card-secondary');
+     * 
+     * @param string $fallback Optional: Eigene Fallback-Klasse (Standard: "uk-card-primary")
+     * @return string Card CSS-Klasse
+     */
+    public static function getInfoMenuCardClass(string $fallback = 'uk-card-primary'): string
+    {
+        $addon = rex_addon::get('extra_styles');
+        $cardClass = $addon->getConfig('info_menu_card_class', $fallback);
+        
+        // Fallback wenn leer
+        if (empty(trim($cardClass))) {
+            $cardClass = $fallback;
+        }
+        
+        return $cardClass;
     }
     
     /**
