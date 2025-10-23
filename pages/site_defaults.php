@@ -38,15 +38,11 @@ if (rex_post('btn_save', 'string')) {
 }
 
 // Aktuelle Werte
-$infoButtonIcon = $addon->getConfig('info_button_icon', 'info');
+$infoButtonIcon = $addon->getConfig('info_button_icon', '');
 $infoButtonRatio = $addon->getConfig('info_button_ratio', '1.5');
 $infoButtonHiddenText = $addon->getConfig('info_button_hidden_text', 'Mehr Informationen');
 $infoButtonTitle = $addon->getConfig('info_button_title', 'Mehr Informationen');
-$infoMenuItems = $addon->getConfig('info_menu_items', [
-    ['icon' => 'instagram', 'url' => '', 'label' => 'Instagram'],
-    ['icon' => 'facebook', 'url' => '', 'label' => 'Facebook'],
-    ['icon' => 'youtube', 'url' => '', 'label' => 'YouTube'],
-]);
+$infoMenuItems = $addon->getConfig('info_menu_items', []);
 $logoText = $addon->getConfig('logo_text', '');
 
 echo $message;
@@ -61,8 +57,26 @@ $content = '
         <div class="form-group">
             <label class="col-sm-3 control-label" for="info_button_icon">' . $addon->i18n('extra_styles_info_button_icon') . '</label>
             <div class="col-sm-9">
-                <input class="form-control" type="text" id="info_button_icon" name="info_button_icon" value="' . htmlspecialchars($infoButtonIcon) . '" />
-                <p class="help-block">UIKit Icon-Name (z.B. info, menu, list)</p>
+                <select class="form-control" id="info_button_icon" name="info_button_icon">
+                    <option value="">-- Icon wählen --</option>
+                    <option value="info"' . ($infoButtonIcon == 'info' ? ' selected' : '') . '>Info</option>
+                    <option value="menu"' . ($infoButtonIcon == 'menu' ? ' selected' : '') . '>Menu</option>
+                    <option value="list"' . ($infoButtonIcon == 'list' ? ' selected' : '') . '>List</option>
+                    <option value="more-vertical"' . ($infoButtonIcon == 'more-vertical' ? ' selected' : '') . '>More Vertical</option>
+                    <option value="more"' . ($infoButtonIcon == 'more' ? ' selected' : '') . '>More</option>
+                    <option value="settings"' . ($infoButtonIcon == 'settings' ? ' selected' : '') . '>Settings</option>
+                    <option value="cog"' . ($infoButtonIcon == 'cog' ? ' selected' : '') . '>Cog</option>
+                    <option value="question"' . ($infoButtonIcon == 'question' ? ' selected' : '') . '>Question</option>
+                    <option value="plus"' . ($infoButtonIcon == 'plus' ? ' selected' : '') . '>Plus</option>
+                    <option value="plus-circle"' . ($infoButtonIcon == 'plus-circle' ? ' selected' : '') . '>Plus Circle</option>
+                    <option value="bolt"' . ($infoButtonIcon == 'bolt' ? ' selected' : '') . '>Bolt</option>
+                    <option value="star"' . ($infoButtonIcon == 'star' ? ' selected' : '') . '>Star</option>
+                    <option value="heart"' . ($infoButtonIcon == 'heart' ? ' selected' : '') . '>Heart</option>
+                    <option value="home"' . ($infoButtonIcon == 'home' ? ' selected' : '') . '>Home</option>
+                    <option value="world"' . ($infoButtonIcon == 'world' ? ' selected' : '') . '>World</option>
+                    <option value="bookmark"' . ($infoButtonIcon == 'bookmark' ? ' selected' : '') . '>Bookmark</option>
+                </select>
+                <p class="help-block">UIKit Icon für den Button</p>
             </div>
         </div>
         
@@ -109,8 +123,28 @@ foreach ($infoMenuItems as $index => $item) {
                 <div class="form-group">
                     <label class="col-sm-3 control-label">UIKit Icon</label>
                     <div class="col-sm-9">
-                        <input class="form-control" type="text" name="menu_items[' . $index . '][icon]" value="' . htmlspecialchars($item['icon']) . '" />
-                        <p class="help-block">z.B. instagram, facebook, youtube, search</p>
+                        <select class="form-control" name="menu_items[' . $index . '][icon]">
+                            <option value="">-- Icon wählen --</option>
+                            <option value="instagram"' . ($item['icon'] == 'instagram' ? ' selected' : '') . '>Instagram</option>
+                            <option value="facebook"' . ($item['icon'] == 'facebook' ? ' selected' : '') . '>Facebook</option>
+                            <option value="youtube"' . ($item['icon'] == 'youtube' ? ' selected' : '') . '>YouTube</option>
+                            <option value="twitter"' . ($item['icon'] == 'twitter' ? ' selected' : '') . '>Twitter</option>
+                            <option value="linkedin"' . ($item['icon'] == 'linkedin' ? ' selected' : '') . '>LinkedIn</option>
+                            <option value="github"' . ($item['icon'] == 'github' ? ' selected' : '') . '>GitHub</option>
+                            <option value="whatsapp"' . ($item['icon'] == 'whatsapp' ? ' selected' : '') . '>WhatsApp</option>
+                            <option value="search"' . ($item['icon'] == 'search' ? ' selected' : '') . '>Search</option>
+                            <option value="mail"' . ($item['icon'] == 'mail' ? ' selected' : '') . '>Mail</option>
+                            <option value="phone"' . ($item['icon'] == 'phone' ? ' selected' : '') . '>Phone</option>
+                            <option value="location"' . ($item['icon'] == 'location' ? ' selected' : '') . '>Location</option>
+                            <option value="link"' . ($item['icon'] == 'link' ? ' selected' : '') . '>Link</option>
+                            <option value="download"' . ($item['icon'] == 'download' ? ' selected' : '') . '>Download</option>
+                            <option value="calendar"' . ($item['icon'] == 'calendar' ? ' selected' : '') . '>Calendar</option>
+                            <option value="clock"' . ($item['icon'] == 'clock' ? ' selected' : '') . '>Clock</option>
+                            <option value="info"' . ($item['icon'] == 'info' ? ' selected' : '') . '>Info</option>
+                            <option value="question"' . ($item['icon'] == 'question' ? ' selected' : '') . '>Question</option>
+                            <option value="home"' . ($item['icon'] == 'home' ? ' selected' : '') . '>Home</option>
+                            <option value="world"' . ($item['icon'] == 'world' ? ' selected' : '') . '>World</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -178,8 +212,28 @@ jQuery(function($) {
                 <div class="form-group">
                     <label class="col-sm-3 control-label">UIKit Icon</label>
                     <div class="col-sm-9">
-                        <input class="form-control" type="text" name="menu_items[${menuItemIndex}][icon]" value="" />
-                        <p class="help-block">z.B. instagram, facebook, youtube, search</p>
+                        <select class="form-control" name="menu_items[${menuItemIndex}][icon]">
+                            <option value="">-- Icon wählen --</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="github">GitHub</option>
+                            <option value="whatsapp">WhatsApp</option>
+                            <option value="search">Search</option>
+                            <option value="mail">Mail</option>
+                            <option value="phone">Phone</option>
+                            <option value="location">Location</option>
+                            <option value="link">Link</option>
+                            <option value="download">Download</option>
+                            <option value="calendar">Calendar</option>
+                            <option value="clock">Clock</option>
+                            <option value="info">Info</option>
+                            <option value="question">Question</option>
+                            <option value="home">Home</option>
+                            <option value="world">World</option>
+                        </select>
                     </div>
                 </div>
                 
