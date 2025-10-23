@@ -406,7 +406,14 @@ if ('add' == $func || 'edit' == $func) {
     echo '<div class="col-lg-4">';
     
     $previewContent = '
-    <div id="extra-styles-preview-wrapper">
+    <div id="extra-styles-preview-wrapper" style="padding: 20px; border-radius: 4px; background-image: 
+        linear-gradient(45deg, #e0e0e0 25%, transparent 25%), 
+        linear-gradient(-45deg, #e0e0e0 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #e0e0e0 75%), 
+        linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        background-color: #f5f5f5;">
         <div id="preview-box" style="padding: 30px; min-height: 200px; border-radius: 0; transition: all 0.3s ease; background: #f5f5f5; color: #333;">
             <h3 style="margin: 0 0 15px 0; font-size: 1.3em; font-weight: bold;">Beispiel Überschrift</h3>
             <p style="margin: 0 0 10px 0; line-height: 1.5;">Dies ist ein Beispieltext um die Farben und Stile zu testen. Der Text sollte gut lesbar sein und <a href="#" onclick="return false;">hier ist ein Beispiel-Link</a> im Fließtext.</p>
