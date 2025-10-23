@@ -535,9 +535,35 @@ Zentrierte Social Media Links mit UIKit3 Icons für den Footer:
 
 ### Berechtigungen
 
-Die Site Defaults Seite kann für Redakteure freigegeben werden:
-- **Berechtigung**: `extra_styles[site_defaults]`
-- Unter **Benutzer** → **Rollen** → Rechte vergeben
+Das AddOn bietet granulare Berechtigungen für verschiedene Bereiche:
+
+**Verfügbare Rechte:**
+- **`extra_styles[overview]`** - Styles verwalten (Übersicht, Hinzufügen, Bearbeiten, Löschen)
+- **`extra_styles[site_defaults]`** - Site Defaults pflegen (Logo, Info-Menü, Social Media)
+- **`extra_styles[settings]`** - Einstellungen ändern (Style-Typen, Custom CSS)
+- **`extra_styles[import_export]`** - Import/Export nutzen (JSON Backup/Restore)
+- **`extra_styles[css_preview]`** - CSS Vorschau anzeigen (Generierte CSS einsehen)
+
+**Empfohlene Konfiguration:**
+
+**Admin:**
+- Alle Rechte aktivieren
+
+**Redakteur:**
+- ✅ `extra_styles[overview]` - Styles erstellen/bearbeiten
+- ✅ `extra_styles[site_defaults]` - Logo und Menüs pflegen
+- ❌ `extra_styles[settings]` - NICHT erlauben (technische Einstellungen)
+- ❌ `extra_styles[import_export]` - NICHT erlauben (Datensicherheit)
+- ❌ `extra_styles[css_preview]` - NICHT erlauben (Code-Einsicht)
+
+**Content Manager (nur Site Defaults):**
+- ❌ `extra_styles[overview]` - Kein Zugriff auf Styles
+- ✅ `extra_styles[site_defaults]` - Nur Logo und Menüs pflegen
+
+**Rechte vergeben:**
+1. Navigiere zu **Benutzer** → **Rollen**
+2. Wähle die Rolle aus oder erstelle eine neue
+3. Unter **Allgemein** → **Extra Styles** die gewünschten Rechte aktivieren
 
 ## Template Code-Referenz
 

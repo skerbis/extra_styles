@@ -12,14 +12,14 @@ page:
     perm: extra_styles[]
     icon: rex-icon fa-palette
     subpages:
-        overview: { title: 'translate:extra_styles_overview' }
-        settings: { title: 'translate:extra_styles_settings' }
+        overview: { title: 'translate:extra_styles_overview', perm: 'extra_styles[overview]' }
+        settings: { title: 'translate:extra_styles_settings', perm: 'extra_styles[settings]' }
         site_defaults: { title: 'translate:extra_styles_site_defaults', perm: 'extra_styles[site_defaults]' }
-        import_export: { title: 'translate:extra_styles_import_export' }
-        css_preview: { title: 'translate:extra_styles_css_preview' }
+        import_export: { title: 'translate:extra_styles_import_export', perm: 'extra_styles[import_export]' }
+        css_preview: { title: 'translate:extra_styles_css_preview', perm: 'extra_styles[css_preview]' }
         help: { title: 'translate:help', subPath: README.md, itemClass: 'pull-right' }
-        add: { title: 'translate:extra_styles_add', hidden: true }
-        edit: { title: 'translate:extra_styles_edit', hidden: true }
+        add: { title: 'translate:extra_styles_add', hidden: true, perm: 'extra_styles[overview]' }
+        edit: { title: 'translate:extra_styles_edit', hidden: true, perm: 'extra_styles[overview]' }
         
 requires:
     redaxo: '^5.13'

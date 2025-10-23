@@ -106,3 +106,11 @@ extra_styles_social_media_description = Links zu Social Media Profilen für den 
 
 extra_styles_site_defaults_availability = Site Defaults Verfügbarkeit
 extra_styles_enable_social_media_links = Social Media Links aktivieren
+
+# Berechtigungen
+perm_general_extra_styles[] = Extra Styles (allgemeiner Zugriff)
+perm_general_extra_styles[overview] = Styles verwalten (Übersicht, Hinzufügen, Bearbeiten, Löschen)
+perm_general_extra_styles[site_defaults] = Site Defaults (Logo, Info-Menü, Social Media)
+perm_general_extra_styles[settings] = Einstellungen (Style-Typen, Custom CSS)
+perm_general_extra_styles[import_export] = Import / Export (JSON Backup)
+perm_general_extra_styles[css_preview] = CSS Vorschau (Generierte CSS anzeigen)
