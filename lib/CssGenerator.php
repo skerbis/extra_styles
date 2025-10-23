@@ -84,6 +84,8 @@ class CssGenerator
         $slug = $style['slug'];
         $type = $style['type'];
         $color = $style['color'];
+        $colorAlpha = $style['color_alpha'] ?? 1.0;
+        $backdropBlur = $style['backdrop_blur'] ?? 0;
         $textColor = $style['text_color'];
         $linkColor = $style['link_color'];
         $borderColor = $style['border_color'];
@@ -91,12 +93,27 @@ class CssGenerator
         $borderRadius = $style['border_radius'] ?? null;
         $isLight = (bool)$style['is_light'];
         
+        // RGBA-Farbe generieren wenn Alpha < 1
+        $bgColor = $color;
+        if ($colorAlpha < 1.0) {
+            // Hex zu RGB konvertieren
+            $hex = str_replace('#', '', $color);
+            $r = hexdec(substr($hex, 0, 2));
+            $g = hexdec(substr($hex, 2, 2));
+            $b = hexdec(substr($hex, 4, 2));
+            $bgColor = "rgba({$r}, {$g}, {$b}, {$colorAlpha})";
+        }
+        
         $css[] = "/* {$style['name']} ({$type}) */";
         
         switch ($type) {
             case 'card':
                 $css[] = ".uk-card-{$slug} {";
-                $css[] = "    background-color: {$color} !important;";
+                $css[] = "    background-color: {$bgColor} !important;";
+                if ($backdropBlur > 0) {
+                    $css[] = "    backdrop-filter: blur({$backdropBlur}px) !important;";
+                    $css[] = "    -webkit-backdrop-filter: blur({$backdropBlur}px) !important;";
+                }
                 // Textfarbe: text_color hat Vorrang vor is_light
                 if ($textColor) {
                     $css[] = "    color: {$textColor} !important;";
@@ -140,7 +157,11 @@ class CssGenerator
                 
             case 'section':
                 $css[] = ".uk-section-{$slug} {";
-                $css[] = "    background-color: {$color} !important;";
+                $css[] = "    background-color: {$bgColor} !important;";
+                if ($backdropBlur > 0) {
+                    $css[] = "    backdrop-filter: blur({$backdropBlur}px) !important;";
+                    $css[] = "    -webkit-backdrop-filter: blur({$backdropBlur}px) !important;";
+                }
                 // Textfarbe: text_color hat Vorrang vor is_light
                 if ($textColor) {
                     $css[] = "    color: {$textColor} !important;";
@@ -176,7 +197,11 @@ class CssGenerator
                 
             case 'background':
                 $css[] = ".uk-background-{$slug} {";
-                $css[] = "    background-color: {$color} !important;";
+                $css[] = "    background-color: {$bgColor} !important;";
+                if ($backdropBlur > 0) {
+                    $css[] = "    backdrop-filter: blur({$backdropBlur}px) !important;";
+                    $css[] = "    -webkit-backdrop-filter: blur({$backdropBlur}px) !important;";
+                }
                 // Textfarbe: text_color hat Vorrang vor is_light
                 if ($textColor) {
                     $css[] = "    color: {$textColor} !important;";

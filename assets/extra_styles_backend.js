@@ -62,9 +62,31 @@ jQuery(function($) {
             transition: 'all 0.3s ease'
         };
         
-        // Hintergrundfarbe
-        const bgColor = colorInput.val() || '#f5f5f5';
+        // Alpha und Backdrop Inputs
+        const colorAlphaInput = $('input[id*="color-alpha"]').first();
+        const backdropBlurInput = $('input[id*="backdrop-blur"]').first();
+        
+        // Hintergrundfarbe mit Alpha
+        const bgColorHex = colorInput.val() || '#f5f5f5';
+        const colorAlpha = parseFloat(colorAlphaInput.val()) || 1.0;
+        const backdropBlur = parseInt(backdropBlurInput.val()) || 0;
+        
+        let bgColor = bgColorHex;
+        if (colorAlpha < 1.0) {
+            const hex = bgColorHex.replace('#', '');
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            bgColor = `rgba(${r}, ${g}, ${b}, ${colorAlpha})`;
+        }
+        
         styles.backgroundColor = bgColor;
+        
+        // Backdrop Filter
+        if (backdropBlur > 0) {
+            styles.backdropFilter = `blur(${backdropBlur}px)`;
+            styles.webkitBackdropFilter = `blur(${backdropBlur}px)`;
+        }
         
         // Textfarbe bestimmen
         let textColor = '#333';
@@ -244,7 +266,7 @@ jQuery(function($) {
     });
     
     // Preview bei allen Input-Änderungen aktualisieren mit Event Delegation
-    $(document).on('change input keyup', 'input[id*="color"], input[id*="border"], input[id*="radius"], select[id*="is-light"]', function(e) {
+    $(document).on('change input keyup', 'input[id*="color"], input[id*="alpha"], input[id*="backdrop"], input[id*="border"], input[id*="radius"], select[id*="is-light"]', function(e) {
         console.log('Input event detected:', e.type, this.id);
         updatePreview();
     });

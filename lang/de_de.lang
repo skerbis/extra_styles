@@ -13,6 +13,8 @@ extra_styles_name = Name
 extra_styles_slug = Slug (CSS-Klasse)
 extra_styles_type = Typ
 extra_styles_color = Hintergrundfarbe
+extra_styles_color_alpha = Transparenz (Alpha)
+extra_styles_backdrop_blur = Backdrop Blur
 extra_styles_text_color = Textfarbe (optional)
 extra_styles_link_color = Linkfarbe (optional)
 extra_styles_border_color = Rahmenfarbe (optional)
@@ -67,6 +69,8 @@ extra_styles_custom_css_label = Eigene CSS-Regeln
 extra_styles_custom_css_description = Hier können Sie individuelle CSS-Regeln eingeben. Diese werden am Anfang der generierten CSS-Datei eingefügt und stehen im gesamten Frontend zur Verfügung.
 
 extra_styles_help = Hilfe
+
+extra_styles_css_preview = CSS Vorschau
 
 extra_styles_import_export = Import / Export
 extra_styles_export = Exportieren

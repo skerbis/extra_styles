@@ -28,9 +28,13 @@ Ein benutzerfreundliches AddOn für REDAXO 5.x, mit dem Redakteure und Admins zu
    - **Slug**: Wird automatisch generiert (z.B. "dunkelblau")
    - **Typ**: Card, Section, Background oder Border
    - **Hintergrundfarbe**: Hauptfarbe (Hex-Code)
+   - **Transparenz (Alpha)**: 0.00 (transparent) bis 1.00 (deckend)
+   - **Backdrop Blur**: Verwischt den Hintergrund (Glasmorphismus-Effekt, 0-100px)
    - **Textfarbe**: Optional, für bessere Lesbarkeit
+   - **Linkfarbe**: Optional, für visuelle Unterscheidung von Links
    - **Rahmenfarbe**: Optional, für Cards mit Rahmen
    - **Rahmenstärke**: In Pixel (Standard: 1)
+   - **Border Radius**: Abgerundete Ecken (z.B. "8px")
    - **Helle Schrift**: Aktivieren für weiße Schrift
    - **Reihenfolge**: Sortierung in der Auswahlliste
    - **Status**: Aktiv/Inaktiv
@@ -295,6 +299,27 @@ Nur für Rahmen, ohne Hintergrund.
 8. **Status**: Inaktive Styles bleiben erhalten, werden aber nicht angezeigt
 9. **Individuelle Styles**: Für spezielle CSS-Regeln die Einstellungsseite nutzen
 
+## Transparenz und Glasmorphismus
+
+Das AddOn unterstützt moderne Design-Effekte:
+
+### Alpha-Transparenz
+- Setzen Sie die **Transparenz** zwischen 0.00 (vollständig transparent) und 1.00 (vollständig deckend)
+- Perfekt für Overlays, semi-transparente Cards und moderne UI-Designs
+- Die Farbe wird automatisch als RGBA ausgegeben
+
+### Backdrop Blur (Glasmorphismus)
+- Aktivieren Sie den **Backdrop Blur** für einen Verwischungseffekt des Hintergrunds
+- Empfohlene Werte: 5-20px für subtile Effekte, 20-50px für starke Verwischung
+- Funktioniert am besten mit semi-transparenten Hintergründen (Alpha < 1.0)
+- Erstellt den beliebten "Frosted Glass" Effekt
+
+**Beispiel-Kombination:**
+- Hintergrundfarbe: `#ffffff`
+- Alpha: `0.3` (30% Deckkraft)
+- Backdrop Blur: `10px`
+- Ergebnis: Milchglasartiger Effekt mit durchscheinendem Hintergrund
+
 ## Barrierefreiheit (Accessibility)
 
 Das AddOn unterstützt Sie bei der Erstellung barrierefreier Farbkombinationen:
@@ -303,6 +328,8 @@ Das AddOn unterstützt Sie bei der Erstellung barrierefreier Farbkombinationen:
 - **WCAG 2.1 konform**: Mindestens 4.5:1 für normalen Text, 3:1 für großen Text
 - **Separate Linkfarbe**: Links können sich deutlich vom Fließtext abheben
 - **Visuelle Hinweise**: Grüne ✓ bei ausreichendem Kontrast, gelbe ⚠ bei Problemen
+
+**Wichtig bei Transparenz:** Bei sehr transparenten Hintergründen kann der Kontrast je nach darunter liegendem Inhalt variieren. Testen Sie diese Kombinationen immer visuell!
 
 ## Technische Details
 
@@ -316,6 +343,8 @@ Felder:
 - `slug`: CSS-Klassen-Name (eindeutig)
 - `type`: card, section, background, border
 - `color`: Hintergrundfarbe (Hex)
+- `color_alpha`: Alpha-Transparenz (Decimal 0.00-1.00, Standard: 1.00)
+- `backdrop_blur`: Backdrop Blur in Pixel (Integer 0-100, Standard: 0)
 - `text_color`: Textfarbe (Hex, optional)
 - `link_color`: Linkfarbe (Hex, optional)
 - `border_color`: Rahmenfarbe (Hex, optional)

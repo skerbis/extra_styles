@@ -54,6 +54,8 @@ if ('copy' == $func && $id > 0) {
             $sql->setValue('slug', ExtraStyles::generateSlug($original['name'] . ' Kopie'));
             $sql->setValue('type', $original['type']);
             $sql->setValue('color', $original['color']);
+            $sql->setValue('color_alpha', $original['color_alpha']);
+            $sql->setValue('backdrop_blur', $original['backdrop_blur']);
             $sql->setValue('text_color', $original['text_color']);
             $sql->setValue('link_color', $original['link_color']);
             $sql->setValue('border_color', $original['border_color']);
@@ -257,6 +259,25 @@ if ('add' == $func || 'edit' == $func) {
     $field->setNotice('Hex-Code, z.B. #ff0000');
     $field->setAttribute('data-colorpicker', 'true');
     $field->getValidator()->add('notEmpty', $addon->i18n('extra_styles_color') . ' ist erforderlich');
+    
+    // Color Alpha (Transparenz)
+    $field = $form->addTextField('color_alpha');
+    $field->setLabel($addon->i18n('extra_styles_color_alpha'));
+    $field->setNotice('Alpha-Transparenz: 0.00 (transparent) bis 1.00 (deckend)');
+    $field->setAttribute('type', 'number');
+    $field->setAttribute('step', '0.01');
+    $field->setAttribute('min', '0');
+    $field->setAttribute('max', '1');
+    $field->setAttribute('value', '1.00');
+    
+    // Backdrop Blur
+    $field = $form->addTextField('backdrop_blur');
+    $field->setLabel($addon->i18n('extra_styles_backdrop_blur'));
+    $field->setNotice('Backdrop-Filter in Pixel (0 = deaktiviert, empfohlen: 5-20)');
+    $field->setAttribute('type', 'number');
+    $field->setAttribute('min', '0');
+    $field->setAttribute('max', '100');
+    $field->setAttribute('value', '0');
     
     // Text Color
     $field = $form->addTextField('text_color');

@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%extra_styles` (
     `slug` varchar(255) NOT NULL,
     `type` varchar(50) NOT NULL COMMENT 'card, section, background, border',
     `color` varchar(7) NOT NULL DEFAULT '#ffffff',
+    `color_alpha` decimal(3,2) DEFAULT 1.00 COMMENT 'Alpha-Transparenz 0.00-1.00',
+    `backdrop_blur` int(3) DEFAULT 0 COMMENT 'Backdrop Blur in px, 0 = deaktiviert',
     `text_color` varchar(7) DEFAULT NULL,
     `link_color` varchar(7) DEFAULT NULL,
     `border_color` varchar(7) DEFAULT NULL,
