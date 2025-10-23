@@ -110,11 +110,21 @@ $content = '
         
         <div id="menu-items-container">';
 
-foreach ($infoMenuItems as $index => $item) {
-    $content .= '
-        <div class="panel panel-default menu-item-panel" data-index="' . $index . '">
+if (!empty($infoMenuItems) && is_array($infoMenuItems)) {
+    foreach ($infoMenuItems as $index => $item) {
+        // Sicherstellen dass $item ein Array ist
+        if (!is_array($item)) {
+            continue;
+        }
+        
+        $itemIcon = isset($item['icon']) ? $item['icon'] : '';
+        $itemUrl = isset($item['url']) ? $item['url'] : '';
+        $itemLabel = isset($item['label']) ? $item['label'] : '';
+        
+        $content .= '
+        <div class="panel panel-default menu-item-panel" data-index="' . (int)$index . '">
             <div class="panel-heading">
-                <strong>Menüpunkt ' . ($index + 1) . '</strong>
+                <strong>Menüpunkt ' . ((int)$index + 1) . '</strong>
                 <button type="button" class="btn btn-xs btn-danger pull-right remove-menu-item" style="margin-top: -3px;">
                     <i class="rex-icon fa-trash"></i> Entfernen
                 </button>
@@ -123,27 +133,27 @@ foreach ($infoMenuItems as $index => $item) {
                 <div class="form-group">
                     <label class="col-sm-3 control-label">UIKit Icon</label>
                     <div class="col-sm-9">
-                        <select class="form-control" name="menu_items[' . $index . '][icon]">
+                        <select class="form-control" name="menu_items[' . (int)$index . '][icon]">
                             <option value="">-- Icon wählen --</option>
-                            <option value="instagram"' . ($item['icon'] == 'instagram' ? ' selected' : '') . '>Instagram</option>
-                            <option value="facebook"' . ($item['icon'] == 'facebook' ? ' selected' : '') . '>Facebook</option>
-                            <option value="youtube"' . ($item['icon'] == 'youtube' ? ' selected' : '') . '>YouTube</option>
-                            <option value="twitter"' . ($item['icon'] == 'twitter' ? ' selected' : '') . '>Twitter</option>
-                            <option value="linkedin"' . ($item['icon'] == 'linkedin' ? ' selected' : '') . '>LinkedIn</option>
-                            <option value="github"' . ($item['icon'] == 'github' ? ' selected' : '') . '>GitHub</option>
-                            <option value="whatsapp"' . ($item['icon'] == 'whatsapp' ? ' selected' : '') . '>WhatsApp</option>
-                            <option value="search"' . ($item['icon'] == 'search' ? ' selected' : '') . '>Search</option>
-                            <option value="mail"' . ($item['icon'] == 'mail' ? ' selected' : '') . '>Mail</option>
-                            <option value="phone"' . ($item['icon'] == 'phone' ? ' selected' : '') . '>Phone</option>
-                            <option value="location"' . ($item['icon'] == 'location' ? ' selected' : '') . '>Location</option>
-                            <option value="link"' . ($item['icon'] == 'link' ? ' selected' : '') . '>Link</option>
-                            <option value="download"' . ($item['icon'] == 'download' ? ' selected' : '') . '>Download</option>
-                            <option value="calendar"' . ($item['icon'] == 'calendar' ? ' selected' : '') . '>Calendar</option>
-                            <option value="clock"' . ($item['icon'] == 'clock' ? ' selected' : '') . '>Clock</option>
-                            <option value="info"' . ($item['icon'] == 'info' ? ' selected' : '') . '>Info</option>
-                            <option value="question"' . ($item['icon'] == 'question' ? ' selected' : '') . '>Question</option>
-                            <option value="home"' . ($item['icon'] == 'home' ? ' selected' : '') . '>Home</option>
-                            <option value="world"' . ($item['icon'] == 'world' ? ' selected' : '') . '>World</option>
+                            <option value="instagram"' . ($itemIcon == 'instagram' ? ' selected' : '') . '>Instagram</option>
+                            <option value="facebook"' . ($itemIcon == 'facebook' ? ' selected' : '') . '>Facebook</option>
+                            <option value="youtube"' . ($itemIcon == 'youtube' ? ' selected' : '') . '>YouTube</option>
+                            <option value="twitter"' . ($itemIcon == 'twitter' ? ' selected' : '') . '>Twitter</option>
+                            <option value="linkedin"' . ($itemIcon == 'linkedin' ? ' selected' : '') . '>LinkedIn</option>
+                            <option value="github"' . ($itemIcon == 'github' ? ' selected' : '') . '>GitHub</option>
+                            <option value="whatsapp"' . ($itemIcon == 'whatsapp' ? ' selected' : '') . '>WhatsApp</option>
+                            <option value="search"' . ($itemIcon == 'search' ? ' selected' : '') . '>Search</option>
+                            <option value="mail"' . ($itemIcon == 'mail' ? ' selected' : '') . '>Mail</option>
+                            <option value="phone"' . ($itemIcon == 'phone' ? ' selected' : '') . '>Phone</option>
+                            <option value="location"' . ($itemIcon == 'location' ? ' selected' : '') . '>Location</option>
+                            <option value="link"' . ($itemIcon == 'link' ? ' selected' : '') . '>Link</option>
+                            <option value="download"' . ($itemIcon == 'download' ? ' selected' : '') . '>Download</option>
+                            <option value="calendar"' . ($itemIcon == 'calendar' ? ' selected' : '') . '>Calendar</option>
+                            <option value="clock"' . ($itemIcon == 'clock' ? ' selected' : '') . '>Clock</option>
+                            <option value="info"' . ($itemIcon == 'info' ? ' selected' : '') . '>Info</option>
+                            <option value="question"' . ($itemIcon == 'question' ? ' selected' : '') . '>Question</option>
+                            <option value="home"' . ($itemIcon == 'home' ? ' selected' : '') . '>Home</option>
+                            <option value="world"' . ($itemIcon == 'world' ? ' selected' : '') . '>World</option>
                         </select>
                     </div>
                 </div>
@@ -151,18 +161,19 @@ foreach ($infoMenuItems as $index => $item) {
                 <div class="form-group">
                     <label class="col-sm-3 control-label">URL</label>
                     <div class="col-sm-9">
-                        <input class="form-control" type="url" name="menu_items[' . $index . '][url]" value="' . htmlspecialchars($item['url']) . '" />
+                        <input class="form-control" type="url" name="menu_items[' . (int)$index . '][url]" value="' . htmlspecialchars($itemUrl) . '" />
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Bezeichnung</label>
                     <div class="col-sm-9">
-                        <input class="form-control" type="text" name="menu_items[' . $index . '][label]" value="' . htmlspecialchars($item['label']) . '" />
+                        <input class="form-control" type="text" name="menu_items[' . (int)$index . '][label]" value="' . htmlspecialchars($itemLabel) . '" />
                     </div>
                 </div>
             </div>
         </div>';
+    }
 }
 
 $content .= '
@@ -196,7 +207,7 @@ $content .= '
 
 <script>
 jQuery(function($) {
-    var menuItemIndex = ' . count($infoMenuItems) . ';
+    var menuItemIndex = ' . (is_array($infoMenuItems) ? count($infoMenuItems) : 0) . ';
     
     // Menüpunkt hinzufügen
     $("#add-menu-item").on("click", function() {
