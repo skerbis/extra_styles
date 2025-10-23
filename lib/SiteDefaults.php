@@ -29,6 +29,11 @@ class SiteDefaults
         $cardClass = $addon->getConfig('info_menu_card_class', 'uk-card-primary');
         $menuItems = $addon->getConfig('info_menu_items', []);
         
+        // Fallback wenn leer
+        if (empty(trim($cardClass))) {
+            $cardClass = 'uk-card-primary';
+        }
+        
         // Ratio mit Punkt statt Komma sicherstellen
         $ratio = str_replace(',', '.', $ratio);
         
