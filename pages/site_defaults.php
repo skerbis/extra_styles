@@ -22,12 +22,21 @@ if (rex_post('btn_save', 'string')) {
         $addon->setConfig('info_button_hidden_text', rex_post('info_button_hidden_text', 'string'));
         $addon->setConfig('info_button_title', rex_post('info_button_title', 'string'));
         
-        // Info Menu Items (Repeater)
-        $menuItems = rex_post('menu_items', [
-            ['icon', 'string'],
-            ['url', 'string'],
-            ['label', 'string']
-        ]);
+        // Info Menu Items (Repeater) - Array direkt auslesen
+        $menuItemsRaw = rex_post('menu_items', 'array', []);
+        $menuItems = [];
+        
+        // Array neu aufbauen und leere Einträge filtern
+        foreach ($menuItemsRaw as $item) {
+            if (is_array($item) && !empty($item['url']) && !empty($item['label'])) {
+                $menuItems[] = [
+                    'icon' => isset($item['icon']) ? $item['icon'] : '',
+                    'url' => $item['url'],
+                    'label' => $item['label']
+                ];
+            }
+        }
+        
         $addon->setConfig('info_menu_items', $menuItems);
         
         // Logo Beschriftung
@@ -43,7 +52,7 @@ $infoButtonRatio = $addon->getConfig('info_button_ratio', '1.5');
 $infoButtonHiddenText = $addon->getConfig('info_button_hidden_text', 'Mehr Informationen');
 $infoButtonTitle = $addon->getConfig('info_button_title', 'Mehr Informationen');
 $infoMenuItems = $addon->getConfig('info_menu_items', []);
-$logoText = $addon->getConfig('logo_text', '');
+$logoText = $addon->getConfig('logo_text', rex::getServerName());
 
 echo $message;
 

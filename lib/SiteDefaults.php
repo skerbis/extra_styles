@@ -72,7 +72,7 @@ class SiteDefaults
     public static function getLogoText(): string
     {
         $addon = rex_addon::get('extra_styles');
-        return $addon->getConfig('logo_text', '');
+        return $addon->getConfig('logo_text', \rex::getServerName());
     }
     
     /**

@@ -68,7 +68,7 @@ if (!$this->hasConfig('info_button_icon')) {
     $this->setConfig('info_button_hidden_text', 'Mehr Informationen');
     $this->setConfig('info_button_title', 'Mehr Informationen');
     $this->setConfig('info_menu_items', []);
-    $this->setConfig('logo_text', '');
+    $this->setConfig('logo_text', rex::getServerName());
 }
 
 // Setze Default Custom CSS (nur bei Neuinstallation)
