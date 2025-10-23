@@ -427,6 +427,19 @@ ExtraStyles\CssGenerator::generate();
 
 Das AddOn bietet eine **Site Defaults** Seite für seitenweite Einstellungen:
 
+### Logo-Beschriftung
+
+Konfigurierbare Logo-Beschriftung für die Website:
+
+**Backend-Konfiguration:**
+1. Navigiere zu **Extra Styles** → **Site Defaults**
+2. Gib die Logo-Beschriftung ein (Standard: Servername)
+
+**Template-Verwendung:**
+```php
+<?= ExtraStyles\SiteDefaults::getLogoText() ?>
+```
+
 ### Info-Button-Menü
 
 Erstellen Sie ein konfigurierbares Info-Button-Menü mit UIKit-Drop-Down:
@@ -455,13 +468,6 @@ Erstellen Sie ein konfigurierbares Info-Button-Menü mit UIKit-Drop-Down:
         <!-- weitere Menüpunkte -->
     </div>
 </div>
-```
-
-### Logo-Beschriftung
-
-**Template-Verwendung:**
-```php
-<?= ExtraStyles\SiteDefaults::getLogoText() ?>
 ```
 
 ### Social Media Links

@@ -80,6 +80,18 @@ $content = '
     ' . $csrfToken->getHiddenField() . '
     
     <fieldset class="form-horizontal">
+        <legend>' . $addon->i18n('extra_styles_logo_text_title') . '</legend>
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="logo_text">' . $addon->i18n('extra_styles_logo_text') . '</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="logo_text" name="logo_text" value="' . htmlspecialchars($logoText) . '" />
+                <p class="help-block">Text für die Logo-Beschriftung (Standard: ' . htmlspecialchars(rex::getServerName()) . ')</p>
+            </div>
+        </div>
+    </fieldset>
+    
+    <fieldset class="form-horizontal">
         <legend>' . $addon->i18n('extra_styles_info_button_title') . '</legend>
         
         <div class="form-group">
@@ -218,18 +230,6 @@ $content .= '
         <button type="button" class="btn btn-default" id="add-menu-item">
             <i class="rex-icon fa-plus"></i> Menüpunkt hinzufügen
         </button>
-    </fieldset>
-    
-    <fieldset class="form-horizontal">
-        <legend>' . $addon->i18n('extra_styles_logo_text_title') . '</legend>
-        
-        <div class="form-group">
-            <label class="col-sm-3 control-label" for="logo_text">' . $addon->i18n('extra_styles_logo_text') . '</label>
-            <div class="col-sm-9">
-                <input class="form-control" type="text" id="logo_text" name="logo_text" value="' . htmlspecialchars($logoText) . '" />
-                <p class="help-block">Text für die Logo-Beschriftung</p>
-            </div>
-        </div>
     </fieldset>
     
     <fieldset class="form-horizontal">
