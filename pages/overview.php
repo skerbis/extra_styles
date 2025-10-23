@@ -274,7 +274,6 @@ if ('add' == $func || 'edit' == $func) {
     $field->setAttribute('type', 'number');
     $field->setAttribute('min', '0');
     $field->setAttribute('max', '100');
-    $field->setAttribute('value', '0');
     
     // Text Color
     $field = $form->addTextField('text_color');

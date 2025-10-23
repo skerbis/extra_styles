@@ -48,6 +48,7 @@ class CssGenerator
                     'slug' => $sql->getValue('slug'),
                     'type' => $sql->getValue('type'),
                     'color' => $sql->getValue('color'),
+                    'backdrop_blur' => $sql->getValue('backdrop_blur'),
                     'text_color' => $sql->getValue('text_color'),
                     'link_color' => $sql->getValue('link_color'),
                     'border_color' => $sql->getValue('border_color'),
