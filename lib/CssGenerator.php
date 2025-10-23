@@ -83,8 +83,7 @@ class CssGenerator
         $css = [];
         $slug = $style['slug'];
         $type = $style['type'];
-        $color = $style['color'];
-        $colorAlpha = $style['color_alpha'] ?? 1.0;
+        $bgColor = $style['color']; // Kann HEX oder RGBA sein
         $backdropBlur = $style['backdrop_blur'] ?? 0;
         $textColor = $style['text_color'];
         $linkColor = $style['link_color'];
@@ -92,17 +91,6 @@ class CssGenerator
         $borderWidth = $style['border_width'] ?? 1;
         $borderRadius = $style['border_radius'] ?? null;
         $isLight = (bool)$style['is_light'];
-        
-        // RGBA-Farbe generieren wenn Alpha < 1
-        $bgColor = $color;
-        if ($colorAlpha < 1.0) {
-            // Hex zu RGB konvertieren
-            $hex = str_replace('#', '', $color);
-            $r = hexdec(substr($hex, 0, 2));
-            $g = hexdec(substr($hex, 2, 2));
-            $b = hexdec(substr($hex, 4, 2));
-            $bgColor = "rgba({$r}, {$g}, {$b}, {$colorAlpha})";
-        }
         
         $css[] = "/* {$style['name']} ({$type}) */";
         
@@ -240,7 +228,7 @@ class CssGenerator
                 if ($borderColor) {
                     $css[] = "    border: {$borderWidth}px solid {$borderColor};";
                 } else {
-                    $css[] = "    border: {$borderWidth}px solid {$color};";
+                    $css[] = "    border: {$borderWidth}px solid {$bgColor};";
                 }
                 if ($borderRadius) {
                     $css[] = "    border-radius: {$borderRadius};";

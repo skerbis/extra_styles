@@ -62,24 +62,12 @@ jQuery(function($) {
             transition: 'all 0.3s ease'
         };
         
-        // Alpha und Backdrop Inputs
-        const colorAlphaInput = $('input[id*="color-alpha"]').first();
+        // Backdrop Blur Input
         const backdropBlurInput = $('input[id*="backdrop-blur"]').first();
-        
-        // Hintergrundfarbe mit Alpha
-        const bgColorHex = colorInput.val() || '#f5f5f5';
-        const colorAlpha = parseFloat(colorAlphaInput.val()) || 1.0;
         const backdropBlur = parseInt(backdropBlurInput.val()) || 0;
         
-        let bgColor = bgColorHex;
-        if (colorAlpha < 1.0) {
-            const hex = bgColorHex.replace('#', '');
-            const r = parseInt(hex.substr(0, 2), 16);
-            const g = parseInt(hex.substr(2, 2), 16);
-            const b = parseInt(hex.substr(4, 2), 16);
-            bgColor = `rgba(${r}, ${g}, ${b}, ${colorAlpha})`;
-        }
-        
+        // Hintergrundfarbe (HEX oder RGBA direkt aus color-Feld)
+        const bgColor = colorInput.val() || '#f5f5f5';
         styles.backgroundColor = bgColor;
         
         // Backdrop Filter
@@ -209,12 +197,12 @@ jQuery(function($) {
             
             components: {
                 preview: true,
-                opacity: false,
+                opacity: true,
                 hue: true,
                 
                 interaction: {
                     hex: true,
-                    rgba: false,
+                    rgba: true,
                     hsla: false,
                     hsva: false,
                     cmyk: false,
@@ -228,8 +216,16 @@ jQuery(function($) {
         // Events
         pickr.on('save', (color, instance) => {
             if (color) {
-                input.value = color.toHEXA().toString();
-                console.log('Pickr saved:', color.toHEXA().toString());
+                // Speichere als HEXA (mit Alpha) oder RGBA
+                const rgba = color.toRGBA();
+                if (rgba[3] < 1) {
+                    // Mit Transparenz: RGBA speichern
+                    input.value = `rgba(${Math.round(rgba[0])}, ${Math.round(rgba[1])}, ${Math.round(rgba[2])}, ${rgba[3].toFixed(2)})`;
+                } else {
+                    // Ohne Transparenz: HEX speichern
+                    input.value = color.toHEXA().toString().substring(0, 7); // nur #RRGGBB ohne Alpha
+                }
+                console.log('Pickr saved:', input.value);
                 updatePreview();
             }
             pickr.hide();
@@ -243,8 +239,14 @@ jQuery(function($) {
         
         pickr.on('change', (color, source, instance) => {
             if (color) {
-                input.value = color.toHEXA().toString();
-                console.log('Pickr changed:', color.toHEXA().toString());
+                // Bei Änderung auch sofort aktualisieren
+                const rgba = color.toRGBA();
+                if (rgba[3] < 1) {
+                    input.value = `rgba(${Math.round(rgba[0])}, ${Math.round(rgba[1])}, ${Math.round(rgba[2])}, ${rgba[3].toFixed(2)})`;
+                } else {
+                    input.value = color.toHEXA().toString().substring(0, 7);
+                }
+                console.log('Pickr changed:', input.value);
                 updatePreview();
             }
         });
@@ -266,7 +268,7 @@ jQuery(function($) {
     });
     
     // Preview bei allen Input-Änderungen aktualisieren mit Event Delegation
-    $(document).on('change input keyup', 'input[id*="color"], input[id*="alpha"], input[id*="backdrop"], input[id*="border"], input[id*="radius"], select[id*="is-light"]', function(e) {
+    $(document).on('change input keyup', 'input[id*="color"], input[id*="backdrop"], input[id*="border"], input[id*="radius"], select[id*="is-light"]', function(e) {
         console.log('Input event detected:', e.type, this.id);
         updatePreview();
     });

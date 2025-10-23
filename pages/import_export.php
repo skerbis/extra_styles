@@ -28,7 +28,6 @@ if ($func == 'export') {
                 'slug' => $sql->getValue('slug'),
                 'type' => $sql->getValue('type'),
                 'color' => $sql->getValue('color'),
-                'color_alpha' => $sql->getValue('color_alpha'),
                 'backdrop_blur' => $sql->getValue('backdrop_blur'),
                 'text_color' => $sql->getValue('text_color'),
                 'link_color' => $sql->getValue('link_color'),
@@ -80,12 +79,11 @@ if ($func == 'import' && $csrfToken->isValid()) {
         
         $backupStyles = [];
         for ($i = 0; $i < $backupSql->getRows(); $i++) {
-                        $backupStyles[] = [
+            $backupStyles[] = [
                 'name' => $backupSql->getValue('name'),
                 'slug' => $backupSql->getValue('slug'),
                 'type' => $backupSql->getValue('type'),
                 'color' => $backupSql->getValue('color'),
-                'color_alpha' => $backupSql->getValue('color_alpha'),
                 'backdrop_blur' => $backupSql->getValue('backdrop_blur'),
                 'text_color' => $backupSql->getValue('text_color'),
                 'link_color' => $backupSql->getValue('link_color'),
@@ -140,7 +138,6 @@ if ($func == 'import' && $csrfToken->isValid()) {
                         $sql->setValue('slug', $style['slug']);
                         $sql->setValue('type', $style['type']);
                         $sql->setValue('color', $style['color']);
-                        $sql->setValue('color_alpha', $style['color_alpha'] ?? 1.0);
                         $sql->setValue('backdrop_blur', $style['backdrop_blur'] ?? 0);
                         $sql->setValue('text_color', $style['text_color'] ?? null);
                         $sql->setValue('link_color', $style['link_color'] ?? null);
@@ -159,7 +156,6 @@ if ($func == 'import' && $csrfToken->isValid()) {
                         $sql->setValue('slug', $style['slug']);
                         $sql->setValue('type', $style['type']);
                         $sql->setValue('color', $style['color']);
-                        $sql->setValue('color_alpha', $style['color_alpha'] ?? 1.0);
                         $sql->setValue('backdrop_blur', $style['backdrop_blur'] ?? 0);
                         $sql->setValue('text_color', $style['text_color'] ?? null);
                         $sql->setValue('link_color', $style['link_color'] ?? null);

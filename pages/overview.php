@@ -54,7 +54,6 @@ if ('copy' == $func && $id > 0) {
             $sql->setValue('slug', ExtraStyles::generateSlug($original['name'] . ' Kopie'));
             $sql->setValue('type', $original['type']);
             $sql->setValue('color', $original['color']);
-            $sql->setValue('color_alpha', $original['color_alpha']);
             $sql->setValue('backdrop_blur', $original['backdrop_blur']);
             $sql->setValue('text_color', $original['text_color']);
             $sql->setValue('link_color', $original['link_color']);
@@ -84,7 +83,7 @@ echo $message;
 
 // Übersicht
 if ('' == $func) {
-    $query = 'SELECT id, name, slug, type, color, text_color, border_color, border_width, is_light, status, priority FROM ' . rex::getTable('extra_styles') . ' ORDER BY priority ASC, name ASC';
+    $query = 'SELECT id, name, slug, type, color, backdrop_blur, text_color, border_color, border_width, is_light, status, priority FROM ' . rex::getTable('extra_styles') . ' ORDER BY priority ASC, name ASC';
     
     $list = rex_list::factory($query, 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -120,14 +119,22 @@ if ('' == $func) {
     // Vorschau
     $list->setColumnLabel('color', $addon->i18n('extra_styles_preview'));
     $list->setColumnFormat('color', 'custom', function() use ($list) {
-        $color = $list->getValue('color');
+        $bgColor = $list->getValue('color'); // Kann HEX oder RGBA sein
+        $backdropBlur = $list->getValue('backdrop_blur') ?? 0;
         $textColor = $list->getValue('text_color');
         $borderColor = $list->getValue('border_color');
         $borderWidth = $list->getValue('border_width');
         $isLight = $list->getValue('is_light');
         $name = rex_escape($list->getValue('name'));
         
-        $style = 'background-color: ' . $color . '; padding: 10px 15px; border-radius: 4px; display: inline-block; min-width: 150px;';
+        // Wrapper mit Muster-Hintergrund
+        $wrapperStyle = 'background: repeating-linear-gradient(45deg, #f0f0f0, #f0f0f0 10px, #ffffff 10px, #ffffff 20px); padding: 2px; border-radius: 4px; display: inline-block;';
+        
+        $style = 'background-color: ' . $bgColor . '; padding: 10px 15px; border-radius: 4px; display: inline-block; min-width: 150px; position: relative;';
+        
+        if ($backdropBlur > 0) {
+            $style .= ' backdrop-filter: blur(' . $backdropBlur . 'px); -webkit-backdrop-filter: blur(' . $backdropBlur . 'px);';
+        }
         
         if ($textColor) {
             $style .= ' color: ' . $textColor . ';';
@@ -141,7 +148,7 @@ if ('' == $func) {
             $style .= ' border: ' . $borderWidth . 'px solid ' . $borderColor . ';';
         }
         
-        return '<div style="' . $style . '">' . $name . '</div>';
+        return '<div style="' . $wrapperStyle . '"><div style="' . $style . '">' . $name . '</div></div>';
     });
     
     // Status
@@ -256,19 +263,9 @@ if ('add' == $func || 'edit' == $func) {
     // Color
     $field = $form->addTextField('color');
     $field->setLabel($addon->i18n('extra_styles_color'));
-    $field->setNotice('Hex-Code, z.B. #ff0000');
+    $field->setNotice('Hex-Code (#ff0000) oder RGBA (rgba(255, 0, 0, 0.5)) für Transparenz');
     $field->setAttribute('data-colorpicker', 'true');
     $field->getValidator()->add('notEmpty', $addon->i18n('extra_styles_color') . ' ist erforderlich');
-    
-    // Color Alpha (Transparenz)
-    $field = $form->addTextField('color_alpha');
-    $field->setLabel($addon->i18n('extra_styles_color_alpha'));
-    $field->setNotice('Alpha-Transparenz: 0.00 (transparent) bis 1.00 (deckend)');
-    $field->setAttribute('type', 'number');
-    $field->setAttribute('step', '0.01');
-    $field->setAttribute('min', '0');
-    $field->setAttribute('max', '1');
-    $field->setAttribute('value', '1.00');
     
     // Backdrop Blur
     $field = $form->addTextField('backdrop_blur');

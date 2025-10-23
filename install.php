@@ -22,16 +22,25 @@ try {
         $sql->setQuery("ALTER TABLE `$table` ADD `border_radius` VARCHAR(20) DEFAULT NULL AFTER `border_width`");
     }
     
-    // color_alpha Spalte
-    $checkSql->setQuery("SHOW COLUMNS FROM `$table` LIKE 'color_alpha'");
-    if ($checkSql->getRows() == 0) {
-        $sql->setQuery("ALTER TABLE `$table` ADD `color_alpha` DECIMAL(3,2) DEFAULT 1.00 COMMENT 'Alpha-Transparenz 0.00-1.00' AFTER `color`");
-    }
-    
     // backdrop_blur Spalte
     $checkSql->setQuery("SHOW COLUMNS FROM `$table` LIKE 'backdrop_blur'");
     if ($checkSql->getRows() == 0) {
-        $sql->setQuery("ALTER TABLE `$table` ADD `backdrop_blur` INT(3) DEFAULT 0 COMMENT 'Backdrop Blur in px, 0 = deaktiviert' AFTER `color_alpha`");
+        $sql->setQuery("ALTER TABLE `$table` ADD `backdrop_blur` INT(3) DEFAULT 0 COMMENT 'Backdrop Blur in px, 0 = deaktiviert' AFTER `color`");
+    }
+    
+    // color Spalte erweitern für RGBA
+    $checkSql->setQuery("SHOW COLUMNS FROM `$table` WHERE Field = 'color'");
+    if ($checkSql->getRows() > 0) {
+        $type = $checkSql->getValue('Type');
+        if (strpos($type, 'varchar(7)') !== false || strpos($type, 'varchar(10)') !== false) {
+            $sql->setQuery("ALTER TABLE `$table` MODIFY `color` VARCHAR(50) NOT NULL DEFAULT '#ffffff' COMMENT 'Hex oder RGBA'");
+        }
+    }
+    
+    // color_alpha Spalte entfernen (falls vorhanden)
+    $checkSql->setQuery("SHOW COLUMNS FROM `$table` LIKE 'color_alpha'");
+    if ($checkSql->getRows() > 0) {
+        $sql->setQuery("ALTER TABLE `$table` DROP COLUMN `color_alpha`");
     }
 } catch (rex_sql_exception $e) {
     // Ignorieren - Spalte existiert bereits oder Tabelle noch nicht vorhanden
