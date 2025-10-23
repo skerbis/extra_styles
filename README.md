@@ -470,6 +470,119 @@ Die Site Defaults Seite kann für Redakteure freigegeben werden:
 - **Berechtigung**: `extra_styles[site_defaults]`
 - Unter **Benutzer** → **Rollen** → Rechte vergeben
 
+## Template Code-Referenz
+
+Alle verfügbaren Methoden für die Ausgabe in Templates:
+
+### Custom CSS einbinden
+
+```php
+// CSS-Datei mit Cachebuster
+<link rel="stylesheet" href="<?= ExtraStyles\ExtraStyles::getCssUrl() ?>">
+
+// Oder kompletter Link-Tag
+<?= ExtraStyles\ExtraStyles::getCssTag() ?>
+```
+
+### Style-Auswahl für MForm
+
+```php
+use ExtraStyles\ExtraStyles;
+use FriendsOfRedaxo\MForm;
+
+// Card-Styles
+$MForm = MForm::factory()
+    ->addSelectField("1.0.cardStyle")
+    ->setLabel('Card-Stil:')
+    ->setOptions(ExtraStyles::getSelectOptions('card'));
+
+// Section-Styles
+$MForm->addSelectField("2.0.sectionStyle")
+    ->setLabel('Section-Stil:')
+    ->setOptions(ExtraStyles::getSelectOptions('section'));
+
+// Background-Styles
+$MForm->addSelectField("3.0.bgStyle")
+    ->setLabel('Hintergrund-Stil:')
+    ->setOptions(ExtraStyles::getSelectOptions('background'));
+
+// Border-Styles
+$MForm->addSelectField("4.0.borderStyle")
+    ->setLabel('Rahmen-Stil:')
+    ->setOptions(ExtraStyles::getSelectOptions('border'));
+```
+
+### Styles per API abrufen
+
+```php
+use ExtraStyles\ExtraStyles;
+
+// Alle aktiven Card-Styles
+$cardStyles = ExtraStyles::getAll('card');
+
+// Alle aktiven Section-Styles
+$sectionStyles = ExtraStyles::getAll('section');
+
+// Alle Styles (unabhängig vom Typ)
+$allStyles = ExtraStyles::getAll();
+
+// Einzelnen Style nach ID
+$style = ExtraStyles::getById(5);
+
+// Einzelnen Style nach Slug
+$style = ExtraStyles::getBySlug('dunkelblau');
+
+// Prüfen ob Typ aktiviert ist
+if (ExtraStyles::isTypeEnabled('card')) {
+    // Cards sind aktiviert
+}
+```
+
+### Site Defaults ausgeben
+
+```php
+use ExtraStyles\SiteDefaults;
+
+// Info-Button-Menü (komplett)
+<?= SiteDefaults::getInfoButtonMenu() ?>
+
+// Logo-Text (Standard: Servername)
+<?= SiteDefaults::getLogoText() ?>
+
+// Einzelne Config-Werte
+$buttonIcon = SiteDefaults::getConfig('info_button_icon');
+$buttonRatio = SiteDefaults::getConfig('info_button_ratio', '1.5');
+```
+
+### Vollständiges Modul-Beispiel
+
+```php
+<?php
+use ExtraStyles\ExtraStyles;
+
+// INPUT
+$id = 1;
+$MForm = MForm::factory()
+    ->addFieldsetArea('Inhalt', MForm::factory()
+        ->addTextField("$id.0.title", ['label' => 'Überschrift'])
+        ->addTextAreaField("$id.0.text", ['label' => 'Text'])
+        ->addSelectField("$id.0.cardStyle")
+            ->setLabel('Card-Stil')
+            ->setOptions(ExtraStyles::getSelectOptions('card'))
+    );
+echo $MForm->show();
+
+// OUTPUT
+$items = rex_var::toArray("REX_VALUE[1]");
+foreach ($items as $item) {
+    $cardClass = !empty($item['cardStyle']) ? 'uk-card-' . $item['cardStyle'] : 'uk-card-default';
+    echo '<div class="uk-card ' . $cardClass . ' uk-card-body">';
+    echo '<h3>' . htmlspecialchars($item['title']) . '</h3>';
+    echo '<p>' . nl2br(htmlspecialchars($item['text'])) . '</p>';
+    echo '</div>';
+}
+```
+
 ## Troubleshooting
 
 ### CSS wird nicht geladen
