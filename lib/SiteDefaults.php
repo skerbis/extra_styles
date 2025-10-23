@@ -37,7 +37,8 @@ class SiteDefaults
         // Ratio mit Punkt statt Komma sicherstellen
         $ratio = str_replace(',', '.', $ratio);
         
-        $html = '<button class="uk-light" type="button" uk-icon="icon: ' . htmlspecialchars($icon) . '; ratio: ' . htmlspecialchars($ratio) . '">';
+        $html = '<div>';
+        $html .= '<button class="uk-light" type="button" uk-icon="icon: ' . htmlspecialchars($icon) . '; ratio: ' . htmlspecialchars($ratio) . '">';
         $html .= '<span class="uk-hidden">' . htmlspecialchars($hiddenText) . '</span>';
         $html .= '</button>';
         $html .= '<div uk-drop="mode: click">';
@@ -50,19 +51,28 @@ class SiteDefaults
             }
         }
         
+        $itemCount = 0;
         foreach ($menuItems as $item) {
             if (!empty($item['url']) && !empty($item['label'])) {
+                if ($itemCount > 0 || $title) {
+                    // HR nur wenn nicht der erste Eintrag ODER wenn Titel vorhanden
+                }
                 $html .= '<span uk-icon="icon: ' . htmlspecialchars($item['icon']) . '"></span> ';
                 $html .= '<a href="' . htmlspecialchars($item['url']) . '">' . htmlspecialchars($item['label']) . '</a>';
+                $itemCount++;
+                // HR nach jedem Item außer dem letzten (wird später behandelt)
                 $html .= '<hr>';
             }
         }
         
-        // Letztes <hr> entfernen wenn vorhanden
-        $html = rtrim($html, '<hr>');
+        // Letztes <hr> korrekt entfernen
+        if ($itemCount > 0) {
+            $html = substr($html, 0, -4); // Entfernt die letzten 4 Zeichen: <hr>
+        }
         
-        $html .= '</div>';
-        $html .= '</div>';
+        $html .= '</div>'; // Schließt uk-card
+        $html .= '</div>'; // Schließt uk-drop
+        $html .= '</div>'; // Schließt Wrapper
         
         return $html;
     }
