@@ -43,6 +43,22 @@ if (rex_post('btn_save', 'string')) {
         // Logo Beschriftung
         $addon->setConfig('logo_text', rex_post('logo_text', 'string'));
         
+        // Social Media Links (Repeater)
+        $socialLinksRaw = rex_post('social_links', 'array', []);
+        $socialLinks = [];
+        
+        foreach ($socialLinksRaw as $link) {
+            if (is_array($link) && !empty($link['url']) && !empty($link['platform'])) {
+                $socialLinks[] = [
+                    'platform' => $link['platform'],
+                    'url' => $link['url'],
+                    'label' => isset($link['label']) ? $link['label'] : ''
+                ];
+            }
+        }
+        
+        $addon->setConfig('social_media_links', $socialLinks);
+        
         $message = rex_view::success($addon->i18n('extra_styles_site_defaults_saved'));
     }
 }
@@ -55,6 +71,7 @@ $infoButtonTitle = $addon->getConfig('info_button_title', 'Mehr Informationen');
 $infoMenuCardClass = $addon->getConfig('info_menu_card_class', 'uk-card-primary');
 $infoMenuItems = $addon->getConfig('info_menu_items', []);
 $logoText = $addon->getConfig('logo_text', rex::getServerName());
+$socialMediaLinks = $addon->getConfig('social_media_links', []);
 
 echo $message;
 
@@ -215,6 +232,71 @@ $content .= '
         </div>
     </fieldset>
     
+    <fieldset class="form-horizontal">
+        <legend>' . $addon->i18n('extra_styles_social_media_title') . '</legend>
+        
+        <div id="social-links-container">';
+
+// Bestehende Social Links ausgeben
+if (is_array($socialMediaLinks) && !empty($socialMediaLinks)) {
+    foreach ($socialMediaLinks as $index => $link) {
+        $content .= '
+            <div class="panel panel-default social-link-panel">
+                <div class="panel-heading">
+                    <button type="button" class="btn btn-xs btn-danger pull-right remove-social-link">
+                        <i class="rex-icon fa-trash"></i> Entfernen
+                    </button>
+                    <strong>Social Media Link ' . ($index + 1) . '</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Plattform</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="social_links[' . $index . '][platform]">
+                                <option value="">-- Plattform wählen --</option>
+                                <option value="facebook"' . ($link['platform'] == 'facebook' ? ' selected' : '') . '>Facebook</option>
+                                <option value="twitter"' . ($link['platform'] == 'twitter' ? ' selected' : '') . '>Twitter / X</option>
+                                <option value="instagram"' . ($link['platform'] == 'instagram' ? ' selected' : '') . '>Instagram</option>
+                                <option value="youtube"' . ($link['platform'] == 'youtube' ? ' selected' : '') . '>YouTube</option>
+                                <option value="linkedin"' . ($link['platform'] == 'linkedin' ? ' selected' : '') . '>LinkedIn</option>
+                                <option value="github"' . ($link['platform'] == 'github' ? ' selected' : '') . '>GitHub</option>
+                                <option value="whatsapp"' . ($link['platform'] == 'whatsapp' ? ' selected' : '') . '>WhatsApp</option>
+                                <option value="pinterest"' . ($link['platform'] == 'pinterest' ? ' selected' : '') . '>Pinterest</option>
+                                <option value="tiktok"' . ($link['platform'] == 'tiktok' ? ' selected' : '') . '>TikTok</option>
+                                <option value="vimeo"' . ($link['platform'] == 'vimeo' ? ' selected' : '') . '>Vimeo</option>
+                                <option value="xing"' . ($link['platform'] == 'xing' ? ' selected' : '') . '>Xing</option>
+                                <option value="mail"' . ($link['platform'] == 'mail' ? ' selected' : '') . '>E-Mail</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">URL</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="url" name="social_links[' . $index . '][url]" value="' . htmlspecialchars($link['url']) . '" placeholder="https://..." />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Bezeichnung</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="social_links[' . $index . '][label]" value="' . htmlspecialchars($link['label'] ?? '') . '" placeholder="z.B. Besuche uns auf Facebook" />
+                            <p class="help-block">Für aria-label und title (Barrierefreiheit)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+    }
+}
+
+$content .= '
+        </div>
+        
+        <button type="button" class="btn btn-default" id="add-social-link">
+            <i class="rex-icon fa-plus"></i> Social Media Link hinzufügen
+        </button>
+    </fieldset>
+    
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
             <button class="btn btn-save rex-form-aligned" type="submit" name="btn_save" value="1">
@@ -291,14 +373,75 @@ jQuery(function($) {
     $(document).on("click", ".remove-menu-item", function() {
         $(this).closest(".menu-item-panel").remove();
     });
+    
+    // Social Media Link hinzufügen
+    let socialLinkIndex = ' . count($socialMediaLinks) . ';
+    $("#add-social-link").on("click", function() {
+        const html = `
+        <div class="panel panel-default social-link-panel">
+            <div class="panel-heading">
+                <button type="button" class="btn btn-xs btn-danger pull-right remove-social-link">
+                    <i class="rex-icon fa-trash"></i> Entfernen
+                </button>
+                <strong>Social Media Link ${socialLinkIndex + 1}</strong>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Plattform</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="social_links[${socialLinkIndex}][platform]">
+                            <option value="">-- Plattform wählen --</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="twitter">Twitter / X</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="github">GitHub</option>
+                            <option value="whatsapp">WhatsApp</option>
+                            <option value="pinterest">Pinterest</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="vimeo">Vimeo</option>
+                            <option value="xing">Xing</option>
+                            <option value="mail">E-Mail</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">URL</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="url" name="social_links[${socialLinkIndex}][url]" value="" placeholder="https://..." />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Bezeichnung</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" name="social_links[${socialLinkIndex}][label]" value="" placeholder="z.B. Besuche uns auf Facebook" />
+                        <p class="help-block">Für aria-label und title (Barrierefreiheit)</p>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        
+        $("#social-links-container").append(html);
+        socialLinkIndex++;
+    });
+    
+    // Social Link entfernen
+    $(document).on("click", ".remove-social-link", function() {
+        $(this).closest(".social-link-panel").remove();
+    });
 });
 </script>
 
 <style>
-.menu-item-panel {
+.menu-item-panel,
+.social-link-panel {
     margin-bottom: 15px;
 }
-.menu-item-panel .form-group:last-child {
+.menu-item-panel .form-group:last-child,
+.social-link-panel .form-group:last-child {
     margin-bottom: 0;
 }
 </style>

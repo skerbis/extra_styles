@@ -100,3 +100,6 @@ extra_styles_info_menu_items = Menüpunkte
 
 extra_styles_logo_text_title = Logo-Beschriftung
 extra_styles_logo_text = Logo-Text
+
+extra_styles_social_media_title = Social Media Links
+extra_styles_social_media_description = Links zu Social Media Profilen für den Footer (nebeneinander, zentriert mit UIKit3 Icons)

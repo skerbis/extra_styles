@@ -110,6 +110,102 @@ class SiteDefaults
     }
     
     /**
+     * Prüft ob ein Info-Menü konfiguriert ist
+     * 
+     * Verwendung im Template:
+     * <?php if (ExtraStyles\SiteDefaults::hasInfoMenu()): ?>
+     *     <?= ExtraStyles\SiteDefaults::getInfoButtonMenu() ?>
+     * <?php endif; ?>
+     * 
+     * @return bool True wenn Menüpunkte vorhanden sind
+     */
+    public static function hasInfoMenu(): bool
+    {
+        $addon = rex_addon::get('extra_styles');
+        $menuItems = $addon->getConfig('info_menu_items', []);
+        
+        if (!is_array($menuItems) || empty($menuItems)) {
+            return false;
+        }
+        
+        // Prüfen ob mindestens ein gültiger Menüpunkt existiert
+        foreach ($menuItems as $item) {
+            if (!empty($item['url']) && !empty($item['label'])) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Gibt Social Media Links als HTML aus (UIKit3 Icons)
+     * 
+     * Verwendung im Template:
+     * <?= ExtraStyles\SiteDefaults::getSocialMediaLinks() ?>
+     * 
+     * @param bool $centered Zentriert (default: true)
+     * @param float|string $ratio Icon-Größe (default: 1.5)
+     * @return string HTML der Social Media Links
+     */
+    public static function getSocialMediaLinks(bool $centered = true, $ratio = 1.5): string
+    {
+        $addon = rex_addon::get('extra_styles');
+        $socialLinks = $addon->getConfig('social_media_links', []);
+        
+        if (!is_array($socialLinks) || empty($socialLinks)) {
+            return '';
+        }
+        
+        // Ratio mit Punkt statt Komma sicherstellen
+        $ratio = str_replace(',', '.', (string)$ratio);
+        
+        $html = '<div class="uk-text-center' . ($centered ? '' : ' uk-text-left') . '">';
+        
+        foreach ($socialLinks as $link) {
+            if (!empty($link['url']) && !empty($link['platform'])) {
+                $html .= '<a href="' . htmlspecialchars($link['url']) . '" ';
+                $html .= 'class="uk-icon-link uk-margin-small-right" ';
+                $html .= 'uk-icon="icon: ' . htmlspecialchars($link['platform']) . '; ratio: ' . htmlspecialchars($ratio) . '" ';
+                
+                if (!empty($link['label'])) {
+                    $html .= 'aria-label="' . htmlspecialchars($link['label']) . '" ';
+                    $html .= 'title="' . htmlspecialchars($link['label']) . '"';
+                }
+                
+                $html .= '></a>';
+            }
+        }
+        
+        $html .= '</div>';
+        
+        return $html;
+    }
+    
+    /**
+     * Prüft ob Social Media Links konfiguriert sind
+     * 
+     * @return bool True wenn Social Links vorhanden sind
+     */
+    public static function hasSocialMediaLinks(): bool
+    {
+        $addon = rex_addon::get('extra_styles');
+        $socialLinks = $addon->getConfig('social_media_links', []);
+        
+        if (!is_array($socialLinks) || empty($socialLinks)) {
+            return false;
+        }
+        
+        foreach ($socialLinks as $link) {
+            if (!empty($link['url']) && !empty($link['platform'])) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * Gibt einen einzelnen Config-Wert zurück
      * 
      * @param string $key Config-Key

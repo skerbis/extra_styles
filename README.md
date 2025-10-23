@@ -464,6 +464,45 @@ Erstellen Sie ein konfigurierbares Info-Button-Menü mit UIKit-Drop-Down:
 <?= ExtraStyles\SiteDefaults::getLogoText() ?>
 ```
 
+### Social Media Links
+
+Zentrierte Social Media Links mit UIKit3 Icons für den Footer:
+
+**Backend-Konfiguration:**
+1. Navigiere zu **Extra Styles** → **Site Defaults**
+2. Scrolle zu **Social Media Links**
+3. Füge Links hinzu (Plattform, URL, Beschreibung)
+
+**Template-Verwendung:**
+```php
+<!-- Zentriert (Standard) -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks() ?>
+
+<!-- Linksbündig mit eigener Icon-Größe -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks(false, 2.0) ?>
+```
+
+**Ausgabe:**
+```html
+<div class="uk-text-center">
+    <a href="https://facebook.com/..." class="uk-icon-link uk-margin-small-right" 
+       uk-icon="icon: facebook; ratio: 1.5" 
+       aria-label="Besuche uns auf Facebook" 
+       title="Besuche uns auf Facebook"></a>
+    <a href="https://instagram.com/..." class="uk-icon-link uk-margin-small-right" 
+       uk-icon="icon: instagram; ratio: 1.5" 
+       aria-label="Instagram" 
+       title="Instagram"></a>
+    <!-- weitere Links -->
+</div>
+```
+
+**Unterstützte Plattformen:**
+- Facebook, Twitter/X, Instagram
+- YouTube, LinkedIn, GitHub
+- WhatsApp, Pinterest, TikTok
+- Vimeo, Xing, E-Mail
+
 ### Berechtigungen
 
 Die Site Defaults Seite kann für Redakteure freigegeben werden:
@@ -561,6 +600,24 @@ $cardClass = SiteDefaults::getInfoMenuCardClass();
 
 // Mit eigenem Fallback
 $cardClass = SiteDefaults::getInfoMenuCardClass('uk-card-secondary');
+
+// Prüfen ob Info-Menü konfiguriert ist
+if (SiteDefaults::hasInfoMenu()) {
+    echo SiteDefaults::getInfoButtonMenu();
+}
+
+// Social Media Links (zentriert, UIKit3 Icons)
+<?= SiteDefaults::getSocialMediaLinks() ?>
+
+// Social Media Links linksbündig mit eigener Icon-Größe
+<?= SiteDefaults::getSocialMediaLinks(false, 2.0) ?>
+
+// Prüfen ob Social Links vorhanden sind
+if (SiteDefaults::hasSocialMediaLinks()) {
+    echo '<footer>';
+    echo SiteDefaults::getSocialMediaLinks();
+    echo '</footer>';
+}
 
 // Einzelne Config-Werte
 $buttonIcon = SiteDefaults::getConfig('info_button_icon');
