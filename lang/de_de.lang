@@ -95,6 +95,7 @@ extra_styles_info_button_icon = Button Icon
 extra_styles_info_button_ratio = Icon Größe (Ratio)
 extra_styles_info_button_hidden_text = Versteckter Text (A11y)
 extra_styles_info_button_title = Menü-Titel
+extra_styles_info_menu_card_class = Card CSS-Klasse
 extra_styles_info_menu_items = Menüpunkte
 
 extra_styles_logo_text_title = Logo-Beschriftung

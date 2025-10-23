@@ -21,6 +21,7 @@ if (rex_post('btn_save', 'string')) {
         $addon->setConfig('info_button_ratio', rex_post('info_button_ratio', 'string'));
         $addon->setConfig('info_button_hidden_text', rex_post('info_button_hidden_text', 'string'));
         $addon->setConfig('info_button_title', rex_post('info_button_title', 'string'));
+        $addon->setConfig('info_menu_card_class', rex_post('info_menu_card_class', 'string'));
         
         // Info Menu Items (Repeater) - Array direkt auslesen
         $menuItemsRaw = rex_post('menu_items', 'array', []);
@@ -51,6 +52,7 @@ $infoButtonIcon = $addon->getConfig('info_button_icon', '');
 $infoButtonRatio = $addon->getConfig('info_button_ratio', '1.5');
 $infoButtonHiddenText = $addon->getConfig('info_button_hidden_text', 'Mehr Informationen');
 $infoButtonTitle = $addon->getConfig('info_button_title', 'Mehr Informationen');
+$infoMenuCardClass = $addon->getConfig('info_menu_card_class', 'uk-card-primary');
 $infoMenuItems = $addon->getConfig('info_menu_items', []);
 $logoText = $addon->getConfig('logo_text', rex::getServerName());
 
@@ -110,6 +112,14 @@ $content = '
             <div class="col-sm-9">
                 <input class="form-control" type="text" id="info_button_title" name="info_button_title" value="' . htmlspecialchars($infoButtonTitle) . '" />
                 <p class="help-block">Titel im Drop-Down Menü</p>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="info_menu_card_class">' . $addon->i18n('extra_styles_info_menu_card_class') . '</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="info_menu_card_class" name="info_menu_card_class" value="' . htmlspecialchars($infoMenuCardClass) . '" />
+                <p class="help-block">CSS-Klasse für die Card (z.B. uk-card-primary, uk-card-secondary oder eigene Extra-Styles-Klasse)</p>
             </div>
         </div>
     </fieldset>

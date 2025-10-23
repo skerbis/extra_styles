@@ -546,8 +546,14 @@ use ExtraStyles\SiteDefaults;
 // Info-Button-Menü (komplett)
 <?= SiteDefaults::getInfoButtonMenu() ?>
 
+// ODER ohne use:
+<?= ExtraStyles\SiteDefaults::getInfoButtonMenu() ?>
+
 // Logo-Text (Standard: Servername)
 <?= SiteDefaults::getLogoText() ?>
+
+// ODER ohne use:
+<?= ExtraStyles\SiteDefaults::getLogoText() ?>
 
 // Einzelne Config-Werte
 $buttonIcon = SiteDefaults::getConfig('info_button_icon');

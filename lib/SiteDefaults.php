@@ -26,6 +26,7 @@ class SiteDefaults
         $ratio = $addon->getConfig('info_button_ratio', '1.5');
         $hiddenText = $addon->getConfig('info_button_hidden_text', 'Mehr Informationen');
         $title = $addon->getConfig('info_button_title', 'Mehr Informationen');
+        $cardClass = $addon->getConfig('info_menu_card_class', 'uk-card-primary');
         $menuItems = $addon->getConfig('info_menu_items', []);
         
         // Ratio mit Punkt statt Komma sicherstellen
@@ -35,7 +36,7 @@ class SiteDefaults
         $html .= '<span class="uk-hidden">' . htmlspecialchars($hiddenText) . '</span>';
         $html .= '</button>';
         $html .= '<div uk-drop="mode: click">';
-        $html .= '<div class="uk-card uk-light uk-card-body uk-card-primary">';
+        $html .= '<div class="uk-card uk-light uk-card-body ' . htmlspecialchars($cardClass) . '">';
         
         if ($title) {
             $html .= '<strong>' . htmlspecialchars($title) . '</strong>';
