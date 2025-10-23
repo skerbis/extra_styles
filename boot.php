@@ -8,6 +8,7 @@ $addon = rex_addon::get('extra_styles');
 // Permissions registrieren
 if (rex::isBackend() && is_object(rex::getUser())) {
     rex_perm::register('extra_styles[]');
+    rex_perm::register('extra_styles[site_defaults]', 'Extra Styles: Site Defaults');
 }
 
 // Backend Assets laden

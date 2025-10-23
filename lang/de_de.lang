@@ -85,3 +85,17 @@ extra_styles_import_button = Importieren
 extra_styles_import_success = {0} Stile erfolgreich importiert
 extra_styles_import_error = Fehler beim Importieren
 extra_styles_import_invalid = Ungültige JSON-Datei
+
+extra_styles_site_defaults = Site Defaults
+extra_styles_site_defaults_title = Site Defaults - Seitenweite Einstellungen
+extra_styles_site_defaults_saved = Einstellungen gespeichert
+
+extra_styles_info_button_title = Info-Button Menü
+extra_styles_info_button_icon = Button Icon
+extra_styles_info_button_ratio = Icon Größe (Ratio)
+extra_styles_info_button_hidden_text = Versteckter Text (A11y)
+extra_styles_info_button_title = Menü-Titel
+extra_styles_info_menu_items = Menüpunkte
+
+extra_styles_logo_text_title = Logo-Beschriftung
+extra_styles_logo_text = Logo-Text

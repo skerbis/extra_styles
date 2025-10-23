@@ -14,6 +14,7 @@ page:
     subpages:
         overview: { title: 'translate:extra_styles_overview' }
         settings: { title: 'translate:extra_styles_settings' }
+        site_defaults: { title: 'translate:extra_styles_site_defaults', perm: 'extra_styles[site_defaults]' }
         import_export: { title: 'translate:extra_styles_import_export' }
         css_preview: { title: 'translate:extra_styles_css_preview' }
         help: { title: 'translate:help', subPath: README.md, itemClass: 'pull-right' }

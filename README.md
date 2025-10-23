@@ -423,6 +423,53 @@ $sql->insert();
 ExtraStyles\CssGenerator::generate();
 ```
 
+## Site Defaults
+
+Das AddOn bietet eine **Site Defaults** Seite für seitenweite Einstellungen:
+
+### Info-Button-Menü
+
+Erstellen Sie ein konfigurierbares Info-Button-Menü mit UIKit-Drop-Down:
+
+**Backend-Konfiguration:**
+1. Navigiere zu **Extra Styles** → **Site Defaults**
+2. Konfiguriere Button-Icon, Größe und versteckten Text
+3. Füge Menüpunkte hinzu (Icon, URL, Bezeichnung)
+
+**Template-Verwendung:**
+```php
+<?= ExtraStyles\SiteDefaults::getInfoButtonMenu() ?>
+```
+
+**Ausgabe:**
+```html
+<button class="uk-light" type="button" uk-icon="icon: info; ratio: 1.5">
+    <span class="uk-hidden">Mehr Informationen</span>
+</button>
+<div uk-drop="mode: click">
+    <div class="uk-card uk-light uk-card-body uk-card-primary">
+        <strong>Mehr Informationen</strong>
+        <hr>
+        <span uk-icon="icon: instagram"></span> <a href="...">Instagram</a>
+        <hr>
+        <!-- weitere Menüpunkte -->
+    </div>
+</div>
+```
+
+### Logo-Beschriftung
+
+**Template-Verwendung:**
+```php
+<?= ExtraStyles\SiteDefaults::getLogoText() ?>
+```
+
+### Berechtigungen
+
+Die Site Defaults Seite kann für Redakteure freigegeben werden:
+- **Berechtigung**: `extra_styles[site_defaults]`
+- Unter **Benutzer** → **Rollen** → Rechte vergeben
+
 ## Troubleshooting
 
 ### CSS wird nicht geladen

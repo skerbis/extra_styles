@@ -61,6 +61,20 @@ if (!file_exists($customCssPath)) {
 // Setze Config-Werte
 $this->setConfig('css_generated', false);
 
+// Setze Default Site Defaults (nur bei Neuinstallation)
+if (!$this->hasConfig('info_button_icon')) {
+    $this->setConfig('info_button_icon', 'info');
+    $this->setConfig('info_button_ratio', '1.5');
+    $this->setConfig('info_button_hidden_text', 'Mehr Informationen');
+    $this->setConfig('info_button_title', 'Mehr Informationen');
+    $this->setConfig('info_menu_items', [
+        ['icon' => 'instagram', 'url' => '', 'label' => 'Instagram'],
+        ['icon' => 'facebook', 'url' => '', 'label' => 'Facebook'],
+        ['icon' => 'youtube', 'url' => '', 'label' => 'YouTube'],
+    ]);
+    $this->setConfig('logo_text', '');
+}
+
 // Setze Default Custom CSS (nur bei Neuinstallation)
 if (!$this->hasConfig('custom_css')) {
     $defaultCss = <<<'CSS'
