@@ -144,11 +144,12 @@ class SiteDefaults
      * Verwendung im Template:
      * <?= ExtraStyles\SiteDefaults::getSocialMediaLinks() ?>
      * 
-     * @param bool $centered Zentriert (default: true)
+     * @param string $alignment Ausrichtung: 'center', 'left', 'right' (default: 'center')
+     * @param string $style Icon-Stil: 'link' oder 'button' (default: 'link')
      * @param float|string $ratio Icon-Größe (default: 1.5)
      * @return string HTML der Social Media Links
      */
-    public static function getSocialMediaLinks(bool $centered = true, $ratio = 1.5): string
+    public static function getSocialMediaLinks(string $alignment = 'center', string $style = 'link', $ratio = 1.5): string
     {
         $addon = rex_addon::get('extra_styles');
         $socialLinks = $addon->getConfig('social_media_links', []);
@@ -160,13 +161,31 @@ class SiteDefaults
         // Ratio mit Punkt statt Komma sicherstellen
         $ratio = str_replace(',', '.', (string)$ratio);
         
-        $html = '<div class="uk-text-center' . ($centered ? '' : ' uk-text-left') . '">';
+        // Ausrichtung bestimmen
+        $alignmentClass = match($alignment) {
+            'left' => 'uk-text-left',
+            'right' => 'uk-text-right',
+            default => 'uk-text-center'
+        };
+        
+        // Style bestimmen
+        $isButton = ($style === 'button');
+        $linkClass = $isButton ? 'uk-icon-button' : 'uk-icon-link';
+        
+        $html = '<div class="' . $alignmentClass . '">';
         
         foreach ($socialLinks as $link) {
             if (!empty($link['url']) && !empty($link['platform'])) {
                 $html .= '<a href="' . htmlspecialchars($link['url']) . '" ';
-                $html .= 'class="uk-icon-link uk-margin-small-right" ';
-                $html .= 'uk-icon="icon: ' . htmlspecialchars($link['platform']) . '; ratio: ' . htmlspecialchars($ratio) . '" ';
+                $html .= 'class="' . $linkClass . ' uk-margin-small-right" ';
+                
+                if ($isButton) {
+                    // Button-Style: uk-icon als Attribut
+                    $html .= 'uk-icon="' . htmlspecialchars($link['platform']) . '" ';
+                } else {
+                    // Link-Style: uk-icon mit ratio
+                    $html .= 'uk-icon="icon: ' . htmlspecialchars($link['platform']) . '; ratio: ' . htmlspecialchars($ratio) . '" ';
+                }
                 
                 if (!empty($link['label'])) {
                     $html .= 'aria-label="' . htmlspecialchars($link['label']) . '" ';

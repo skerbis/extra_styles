@@ -481,24 +481,48 @@ Zentrierte Social Media Links mit UIKit3 Icons für den Footer:
 
 **Template-Verwendung:**
 ```php
-<!-- Zentriert (Standard) -->
+<!-- Standard: Zentriert, Link-Style, Ratio 1.5 -->
 <?= ExtraStyles\SiteDefaults::getSocialMediaLinks() ?>
 
-<!-- Linksbündig mit eigener Icon-Größe -->
-<?= ExtraStyles\SiteDefaults::getSocialMediaLinks(false, 2.0) ?>
+<!-- Linksbündig -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks('left') ?>
+
+<!-- Rechtsbündig -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks('right') ?>
+
+<!-- Als Icon-Buttons (rund) -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks('center', 'button') ?>
+
+<!-- Button-Style, linksbündig -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks('left', 'button') ?>
+
+<!-- Link-Style mit größeren Icons -->
+<?= ExtraStyles\SiteDefaults::getSocialMediaLinks('center', 'link', 2.0) ?>
 ```
 
-**Ausgabe:**
+**Parameter:**
+- `$alignment`: `'center'` (default), `'left'`, `'right'`
+- `$style`: `'link'` (default, normale Icons) oder `'button'` (runde Buttons)
+- `$ratio`: Icon-Größe (nur bei style='link'), z.B. `1.5`, `2.0`
+
+**Ausgabe Link-Style:**
 ```html
 <div class="uk-text-center">
     <a href="https://facebook.com/..." class="uk-icon-link uk-margin-small-right" 
        uk-icon="icon: facebook; ratio: 1.5" 
        aria-label="Besuche uns auf Facebook" 
        title="Besuche uns auf Facebook"></a>
-    <a href="https://instagram.com/..." class="uk-icon-link uk-margin-small-right" 
-       uk-icon="icon: instagram; ratio: 1.5" 
-       aria-label="Instagram" 
-       title="Instagram"></a>
+    <!-- weitere Links -->
+</div>
+```
+
+**Ausgabe Button-Style:**
+```html
+<div class="uk-text-center">
+    <a href="https://facebook.com/..." class="uk-icon-button uk-margin-small-right" 
+       uk-icon="facebook" 
+       aria-label="Besuche uns auf Facebook" 
+       title="Besuche uns auf Facebook"></a>
     <!-- weitere Links -->
 </div>
 ```
@@ -612,16 +636,22 @@ if (SiteDefaults::hasInfoMenu()) {
     echo SiteDefaults::getInfoButtonMenu();
 }
 
-// Social Media Links (zentriert, UIKit3 Icons)
+// Social Media Links (Standard: zentriert, Link-Style)
 <?= SiteDefaults::getSocialMediaLinks() ?>
 
-// Social Media Links linksbündig mit eigener Icon-Größe
-<?= SiteDefaults::getSocialMediaLinks(false, 2.0) ?>
+// Linksbündig, normale Icons
+<?= SiteDefaults::getSocialMediaLinks('left') ?>
+
+// Rechtsbündig, Button-Style
+<?= SiteDefaults::getSocialMediaLinks('right', 'button') ?>
+
+// Zentriert, Link-Style, größere Icons
+<?= SiteDefaults::getSocialMediaLinks('center', 'link', 2.5) ?>
 
 // Prüfen ob Social Links vorhanden sind
 if (SiteDefaults::hasSocialMediaLinks()) {
     echo '<footer>';
-    echo SiteDefaults::getSocialMediaLinks();
+    echo SiteDefaults::getSocialMediaLinks('center', 'button');
     echo '</footer>';
 }
 
