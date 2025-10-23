@@ -14,6 +14,7 @@ $csrfToken = rex_csrf_token::factory('extra_styles_settings');
 // Save Settings
 if ($func == 'save' && $csrfToken->isValid()) {
     $enabledTypes = rex_post('enabled_types', 'array', []);
+    $customCss = rex_post('custom_css', 'string', '');
     
     // Save to addon config
     $addon->setConfig('enabled_types', [
@@ -23,16 +24,27 @@ if ($func == 'save' && $csrfToken->isValid()) {
         'border' => in_array('border', $enabledTypes),
     ]);
     
+    // Always save custom CSS
+    $oldCustomCss = $addon->getConfig('custom_css', '');
+    $addon->setConfig('custom_css', $customCss);
+    
+    // Regenerate CSS file if custom CSS changed
+    if ($customCss !== $oldCustomCss) {
+        \ExtraStyles\CssGenerator::generate();
+    }
+    
     echo rex_view::success($addon->i18n('extra_styles_settings_saved'));
 }
 
-// Get current settings
+// Get current settings (after save to get updated values)
 $enabledTypes = $addon->getConfig('enabled_types', [
     'card' => true,
     'section' => true,
     'background' => true,
     'border' => true,
 ]);
+
+$customCss = $addon->getConfig('custom_css', '');
 
 ?>
 
@@ -44,6 +56,8 @@ $enabledTypes = $addon->getConfig('enabled_types', [
 <form action="<?= rex_url::currentBackendPage() ?>" method="post">
     <?= $csrfToken->getHiddenField() ?>
     <input type="hidden" name="func" value="save" />
+    <!-- Hidden fields to preserve custom CSS when saving type settings -->
+    <input type="hidden" name="custom_css" value="<?= htmlspecialchars($customCss) ?>" />
     
     <section class="rex-page-section">
         <div class="panel panel-default">
@@ -90,6 +104,50 @@ $enabledTypes = $addon->getConfig('enabled_types', [
                         </label>
                         <p class="help-block">uk-border-* Klassen nur für Rahmen</p>
                     </div>
+                </div>
+                
+            </div>
+            <footer class="panel-footer">
+                <div class="rex-form-panel-footer">
+                    <div class="btn-toolbar">
+                        <button class="btn btn-save rex-form-aligned" type="submit" name="save" value="1">
+                            <?= rex_i18n::msg('form_save') ?>
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+</form>
+
+<form action="<?= rex_url::currentBackendPage() ?>" method="post">
+    <?= $csrfToken->getHiddenField() ?>
+    <input type="hidden" name="func" value="save" />
+    <!-- Hidden fields to preserve enabled types when saving custom CSS -->
+    <?php foreach ($enabledTypes as $type => $enabled): ?>
+        <?php if ($enabled): ?>
+            <input type="hidden" name="enabled_types[]" value="<?= $type ?>" />
+        <?php endif; ?>
+    <?php endforeach; ?>
+    
+    <section class="rex-page-section">
+        <div class="panel panel-default">
+            <header class="panel-heading">
+                <div class="panel-title"><?= $addon->i18n('extra_styles_custom_css_title') ?></div>
+            </header>
+            <div class="panel-body">
+                
+                <div class="form-group">
+                    <label for="custom_css"><?= $addon->i18n('extra_styles_custom_css_label') ?></label>
+                    <p class="help-block"><?= $addon->i18n('extra_styles_custom_css_description') ?></p>
+                    <textarea 
+                        id="custom_css" 
+                        name="custom_css" 
+                        class="form-control codemirror" 
+                        data-codemirror-theme="dracula" 
+                        data-codemirror-mode="css"
+                        rows="20"
+                    ><?= htmlspecialchars($customCss) ?></textarea>
                 </div>
                 
             </div>

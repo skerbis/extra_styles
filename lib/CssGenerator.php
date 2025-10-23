@@ -33,6 +33,16 @@ class CssGenerator
             $css[] = "/* Automatisch generiert am " . date('d.m.Y H:i:s') . " */";
             $css[] = "";
             
+            // Individuelle CSS-Stile (falls vorhanden)
+            $customCss = $addon->getConfig('custom_css', '');
+            if (!empty(trim($customCss))) {
+                $css[] = "/* Individuelle CSS-Stile */";
+                $css[] = trim($customCss);
+                $css[] = "";
+                $css[] = "/* Generierte Styles */";
+                $css[] = "";
+            }
+            
             for ($i = 0; $i < $sql->getRows(); $i++) {
                 $style = [
                     'slug' => $sql->getValue('slug'),

@@ -120,6 +120,71 @@ Beispiel:
 </div>
 ```
 
+### CSS-Datei im Template einbinden
+
+Das AddOn bindet die CSS-Datei automatisch ein. Sie können aber auch manuell mit Cachebuster einbinden:
+
+```php
+<!-- Kompletter Link-Tag -->
+<?= ExtraStyles\ExtraStyles::getCssTag() ?>
+
+<!-- Oder nur die URL mit Cachebuster -->
+<link rel="stylesheet" href="<?= ExtraStyles\ExtraStyles::getCssUrl() ?>">
+```
+
+Der Cachebuster basiert auf dem Änderungszeitpunkt der CSS-Datei und stellt sicher, dass Browser immer die aktuellste Version laden.
+
+Beispiel-Output:
+```html
+<link rel="stylesheet" href="/assets/addons/extra_styles/custom.css?v=1729717845">
+```
+
+## Einstellungen
+
+### Style-Typen aktivieren/deaktivieren
+
+Unter **Einstellungen** können Sie festlegen, welche Style-Typen in der Verwaltung verfügbar sein sollen:
+
+- ☑️ **Cards aktivieren**: uk-card-* Klassen für Kacheln und Content-Boxen
+- ☑️ **Sections aktivieren**: uk-section-* Klassen für große Abschnitte mit Padding
+- ☑️ **Backgrounds aktivieren**: uk-background-* Klassen für Hintergründe ohne Padding
+- ☑️ **Borders aktivieren**: uk-border-* Klassen nur für Rahmen
+
+### Individuelle CSS-Stile
+
+Zusätzlich zu den generierten Styles können Sie **individuelle CSS-Regeln** eingeben:
+
+1. Navigiere zu **Einstellungen**
+2. Scrolle zu **Individuelle CSS-Stile**
+3. Gib deine CSS-Regeln ein (mit CodeMirror-Editor)
+4. Speichern
+
+Die individuellen CSS-Regeln werden **am Anfang** der generierten CSS-Datei eingefügt und stehen im gesamten Frontend zur Verfügung.
+
+**Beispiel:**
+```css
+.aspect-ratio-16-9 {
+    display: flow-root;
+    position: relative;
+}
+
+.aspect-ratio-16-9::before {
+    content: '';
+    float: left;
+    padding-bottom: 56.25%;
+}
+
+@media screen and (max-width: 1499px) {
+    img.logo { 
+        height: 100px; 
+        position: absolute; 
+        left: 4%; 
+        top: 0px; 
+        z-index: 20;
+    }   
+}
+```
+
 ## API-Referenz
 
 ### ExtraStyles Klasse
@@ -144,6 +209,14 @@ $style = ExtraStyles::getBySlug('dunkelblau');
 
 // Style löschen
 ExtraStyles::delete(5);
+
+// CSS-URL mit Cachebuster
+$cssUrl = ExtraStyles::getCssUrl();
+// Ergebnis: /assets/addons/extra_styles/custom.css?v=1729717845
+
+// Kompletter Link-Tag mit Cachebuster
+$cssTag = ExtraStyles::getCssTag();
+// Ergebnis: <link rel="stylesheet" href="/assets/addons/extra_styles/custom.css?v=1729717845">
 ```
 
 ### CssGenerator Klasse
@@ -153,13 +226,27 @@ use ExtraStyles\CssGenerator;
 
 // CSS manuell neu generieren
 CssGenerator::generate();
-
-// Pfad zur custom.css
-$path = CssGenerator::getCssPath();
-
-// URL zur custom.css
-$url = CssGenerator::getCssUrl();
 ```
+
+## Import / Export
+
+### Styles exportieren
+
+1. Navigiere zu **Import / Export**
+2. Klicke auf **JSON herunterladen**
+3. Eine JSON-Datei mit allen Styles wird heruntergeladen
+
+### Styles importieren
+
+1. Navigiere zu **Import / Export**
+2. Wähle eine JSON-Datei aus
+3. Klicke auf **Importieren**
+
+**Wichtig**: 
+- Vor dem Import wird automatisch ein **Backup** erstellt
+- Backups werden in `data/addons/extra_styles/backups/` gespeichert
+- Existierende Styles (gleicher Slug) werden aktualisiert
+- Neue Styles werden hinzugefügt
 
 ## Style-Typen
 
@@ -191,9 +278,22 @@ Nur für Rahmen, ohne Hintergrund.
 
 1. **Sprechende Namen verwenden**: "Dunkelblau" statt "Farbe 1"
 2. **Live-Preview nutzen**: Sehen Sie sofort, wie es aussieht
-3. **Textfarbe beachten**: Für dunkle Hintergründe "Helle Schrift" aktivieren
-4. **Rahmen optional**: Border-Farbe nur setzen, wenn gewünscht
-5. **Status**: Inaktive Styles bleiben erhalten, werden aber nicht angezeigt
+3. **Textfarbe beachten**: Für dunkle Hintergründe "Helle Schrift" aktivieren oder benutzerdefinierte Textfarbe setzen
+4. **Linkfarbe optional**: Separate Linkfarbe für bessere Unterscheidung vom Text
+5. **Barrierefreiheit**: Die Preview warnt bei unzureichendem Kontrast (WCAG 2.1)
+6. **Rahmen optional**: Border-Farbe nur setzen, wenn gewünscht
+7. **Border Radius**: Abgerundete Ecken in Pixeln (z.B. 8)
+8. **Status**: Inaktive Styles bleiben erhalten, werden aber nicht angezeigt
+9. **Individuelle Styles**: Für spezielle CSS-Regeln die Einstellungsseite nutzen
+
+## Barrierefreiheit (Accessibility)
+
+Das AddOn unterstützt Sie bei der Erstellung barrierefreier Farbkombinationen:
+
+- **Automatische Kontrastprüfung**: Die Live-Preview zeigt Warnungen bei unzureichendem Kontrast
+- **WCAG 2.1 konform**: Mindestens 4.5:1 für normalen Text, 3:1 für großen Text
+- **Separate Linkfarbe**: Links können sich deutlich vom Fließtext abheben
+- **Visuelle Hinweise**: Grüne ✓ bei ausreichendem Kontrast, gelbe ⚠ bei Problemen
 
 ## Technische Details
 
@@ -208,8 +308,10 @@ Felder:
 - `type`: card, section, background, border
 - `color`: Hintergrundfarbe (Hex)
 - `text_color`: Textfarbe (Hex, optional)
+- `link_color`: Linkfarbe (Hex, optional)
 - `border_color`: Rahmenfarbe (Hex, optional)
-- `border_width`: Rahmenstärke (Integer)
+- `border_width`: Rahmenstärke (Integer, Standard: 1)
+- `border_radius`: Border Radius (String, z.B. "8px")
 - `is_light`: Helle Schrift (Boolean)
 - `priority`: Sortierung (Integer)
 - `status`: Aktiv/Inaktiv (Boolean)
@@ -219,19 +321,31 @@ Felder:
 
 Die `custom.css` wird automatisch generiert:
 - Bei Speichern/Löschen eines Styles
+- Bei Änderung der individuellen CSS-Stile
 - Bei AddOn-Update
 - Manuell über "CSS regenerieren"
 
+**Struktur der generierten CSS-Datei:**
+1. Header mit Generierungszeitpunkt
+2. **Individuelle CSS-Stile** (falls vorhanden)
+3. Generierte Styles aus der Datenbank
+
+**CSS-Spezifität:**
+- Alle Farbdeklarationen verwenden `!important` um UIKit's `.uk-light` zu überschreiben
+- Überschriften (h1-h6) erben die Textfarbe
+- Links erhalten separate Farbe nur wenn `link_color` gesetzt ist
+
 Speicherort: `assets/addons/extra_styles/custom.css`
 
-Die Datei wird im Frontend automatisch eingebunden.
+Die Datei wird im Frontend und Backend automatisch eingebunden.
 
 ### Dependencies
 
 - **REDAXO**: >= 5.13
 - **PHP**: >= 8.0
 - **UIKit3**: Im REDAXO integriert
-- **Pickr**: Color Picker (via CDN)
+- **Pickr**: Color Picker (lokal integriert, 23KB)
+- **CodeMirror**: Für CSS-Editor (REDAXO-integriert)
 
 ## Entwickler-Hinweise
 

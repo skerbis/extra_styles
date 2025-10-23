@@ -274,4 +274,41 @@ class ExtraStyles
             return false;
         }
     }
+    
+    /**
+     * Gibt die CSS-Datei URL mit Cachebuster zurück
+     * Der Cachebuster basiert auf dem Änderungszeitpunkt der CSS-Datei
+     * 
+     * Verwendung im Template:
+     * <link rel="stylesheet" href="<?= ExtraStyles\ExtraStyles::getCssUrl() ?>">
+     * 
+     * @return string URL zur CSS-Datei mit Cachebuster
+     */
+    public static function getCssUrl(): string
+    {
+        $cssPath = \rex_path::assets('addons/extra_styles/custom.css');
+        $cssUrl = \rex_url::assets('addons/extra_styles/custom.css');
+        
+        // Prüfen ob Datei existiert und Änderungszeitpunkt als Cachebuster verwenden
+        if (file_exists($cssPath)) {
+            $mtime = filemtime($cssPath);
+            $cssUrl .= '?v=' . $mtime;
+        }
+        
+        return $cssUrl;
+    }
+    
+    /**
+     * Gibt einen kompletten Link-Tag für die CSS-Datei mit Cachebuster zurück
+     * 
+     * Verwendung im Template:
+     * <?= ExtraStyles\ExtraStyles::getCssTag() ?>
+     * 
+     * @return string Kompletter <link> Tag
+     */
+    public static function getCssTag(): string
+    {
+        return '<link rel="stylesheet" href="' . self::getCssUrl() . '">';
+    }
 }
+

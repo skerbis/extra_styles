@@ -62,6 +62,10 @@ extra_styles_type_background_enabled = Backgrounds aktivieren
 extra_styles_type_border_enabled = Borders aktivieren
 extra_styles_settings_description = Hier können Sie festlegen, welche Style-Typen in der Verwaltung verfügbar sein sollen.
 
+extra_styles_custom_css_title = Individuelle CSS-Stile
+extra_styles_custom_css_label = Eigene CSS-Regeln
+extra_styles_custom_css_description = Hier können Sie individuelle CSS-Regeln eingeben. Diese werden am Anfang der generierten CSS-Datei eingefügt und stehen im gesamten Frontend zur Verfügung.
+
 extra_styles_import_export = Import / Export
 extra_styles_export = Exportieren
 extra_styles_export_title = Stile exportieren
