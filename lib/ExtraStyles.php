@@ -76,6 +76,61 @@ class ExtraStyles
         
         return isset($enabledTypes[$type]) && $enabledTypes[$type];
     }    /**
+     * Gibt Styles im Format für MForm RadioColorField zurück
+     * Nur Custom Styles aus der Datenbank (keine Standard-UIKit-Optionen)
+     * 
+     * Kann per array_merge() mit eigenen Optionen kombiniert werden:
+     * 
+     * ```php
+     * ->addRadioColorField("2.0.background_style", array_merge(
+     *     ['' => ['color' => 'transparent', 'label' => 'Kein Hintergrund']],
+     *     ExtraStyles::getRadioColorOptions('background')
+     * ), ['label' => 'Hintergrund'])
+     * ```
+     * 
+     * @param string $type Typ: card, section, background, border
+     * @param string|null $prefix CSS-Klassen-Prefix (z.B. 'uk-background-'). Wird automatisch anhand des Typs erkannt wenn null.
+     * @return array Format: ['css-class' => ['color' => '#hex', 'label' => 'Name']]
+     */
+    public static function getRadioColorOptions(string $type, ?string $prefix = null): array
+    {
+        // Prefix automatisch anhand des Typs erkennen
+        if ($prefix === null) {
+            $prefix = match ($type) {
+                'card' => 'uk-card-',
+                'section' => 'uk-section-',
+                'background' => 'uk-background-',
+                'border' => 'uk-border-',
+                default => '',
+            };
+        }
+
+        $options = [];
+
+        try {
+            $customStyles = self::getAll($type);
+            if (is_array($customStyles)) {
+                foreach ($customStyles as $style) {
+                    if (!empty($style['slug']) && !empty($style['name'])) {
+                        $key = $prefix . $style['slug'];
+                        if (!empty($style['is_light'])) {
+                            $key .= ' uk-light';
+                        }
+                        $options[$key] = [
+                            'color' => $style['color'] ?: '#cccccc',
+                            'label' => $style['name'],
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            // Bei Fehler leeres Array zurückgeben
+        }
+
+        return $options;
+    }
+
+    /**
      * Gibt ein Style-Array für Select-Felder zurück
      * Kombiniert Standard-UIKit-Styles mit Custom Styles
      * 

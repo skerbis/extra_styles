@@ -2,7 +2,69 @@
 
 Dieses Dokument zeigt, wie die Oejv-Module für die Verwendung von Extra Styles aktualisiert wurden.
 
-## Beispiel 1: Oejv Cards Modul
+## MForm RadioColorField Integration
+
+Die Methode `getRadioColorOptions()` liefert Custom Styles im passenden Format für MForm's `addRadioColorField`.
+
+### Vorher (hardcoded)
+
+```php
+->addRadioColorField("2.0.background_style", [
+    '' => ['color' => 'transparent', 'label' => 'Kein Hintergrund'],
+    'uk-background-default' => ['color' => '#ffffff', 'label' => 'Weißer Hintergrund'],
+    'uk-background-secondary5' => ['color' => '#f8f7f4', 'label' => 'Beige Hintergrund'],
+    'uk-background-secondary2' => ['color' => '#f5f0e8', 'label' => 'Beige Hell'],
+    'uk-background-primary' => ['color' => '#005d40', 'label' => 'Grüner Hintergrund'],
+], ['label' => '<i class="fas fa-palette"></i> Sektion-Hintergrund'])
+```
+
+### Nachher (dynamisch mit Extra Styles)
+
+```php
+use ExtraStyles\ExtraStyles;
+
+// Nur Custom Styles aus der DB
+->addRadioColorField("2.0.background_style",
+    ExtraStyles::getRadioColorOptions('background'),
+    ['label' => '<i class="fas fa-palette"></i> Sektion-Hintergrund']
+)
+
+// Eigene Optionen VOR den Custom Styles
+->addRadioColorField("2.0.background_style", array_merge(
+    ['' => ['color' => 'transparent', 'label' => 'Kein Hintergrund']],
+    ExtraStyles::getRadioColorOptions('background')
+), ['label' => '<i class="fas fa-palette"></i> Sektion-Hintergrund'])
+
+// Eigene Optionen VOR und NACH den Custom Styles
+->addRadioColorField("2.0.background_style", array_merge(
+    ['' => ['color' => 'transparent', 'label' => 'Kein Hintergrund']],
+    ExtraStyles::getRadioColorOptions('background'),
+    ['custom-class' => ['color' => '#ff0000', 'label' => 'Spezial-Rot']]
+), ['label' => '<i class="fas fa-palette"></i> Sektion-Hintergrund'])
+```
+
+### Verfügbare Typen und automatische Prefixe
+
+| Typ | Auto-Prefix | Beispiel-Key |
+|-----|-------------|--------------|
+| `background` | `uk-background-` | `uk-background-sand` |
+| `card` | `uk-card-` | `uk-card-dunkelblau` |
+| `section` | `uk-section-` | `uk-section-brand` |
+| `border` | `uk-border-` | `uk-border-akzent` |
+
+### Custom Prefix
+
+```php
+// Eigenes Prefix statt Auto-Erkennung
+ExtraStyles::getRadioColorOptions('background', 'bg-')
+// → ['bg-sand' => ['color' => '#f5f0e8', 'label' => 'Sand'], ...]
+```
+
+---
+
+## Select-Feld Integration
+
+### Beispiel 1: Oejv Cards Modul
 
 ### Vorher (input.php)
 
