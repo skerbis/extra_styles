@@ -2,6 +2,16 @@
 
 Alle wichtigen Änderungen am Extra Styles AddOn werden hier dokumentiert.
 
+## [1.0.1] - 2026-02-27
+
+### Geändert
+- Manuelle CSS-Regeln in den Einstellungen sind jetzt nur noch für Administratoren sichtbar und bearbeitbar.
+- Serverseitige Absicherung ergänzt: `custom_css` wird nur gespeichert, wenn der aktuelle Benutzer Administrator ist.
+- Reihenfolge der CSS-Ausgabe verbessert: individuelle CSS-Regeln werden am Ende der generierten Datei angehängt, damit bestehende Regeln gezielt überschrieben werden können.
+
+### Technisch
+- AddOn-Version in `package.yml` auf `1.0.1` erhöht.
+
 ## [1.0.0] - 2025-10-22
 
 ### Hinzugefügt

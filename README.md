@@ -163,7 +163,7 @@ Zusätzlich zu den generierten Styles können Sie **individuelle CSS-Regeln** ei
 3. Gib deine CSS-Regeln ein (mit CodeMirror-Editor)
 4. Speichern
 
-Die individuellen CSS-Regeln werden **am Anfang** der generierten CSS-Datei eingefügt und stehen im gesamten Frontend zur Verfügung.
+Die individuellen CSS-Regeln werden **am Ende** der generierten CSS-Datei eingefügt und stehen im gesamten Frontend zur Verfügung.
 
 **Beispiel:**
 ```css

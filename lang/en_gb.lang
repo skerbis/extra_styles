@@ -62,6 +62,10 @@ extra_styles_type_background_enabled = Enable Backgrounds
 extra_styles_type_border_enabled = Enable Borders
 extra_styles_settings_description = Here you can define which style types should be available in the management interface.
 
+extra_styles_custom_css_title = Custom CSS Styles
+extra_styles_custom_css_label = Custom CSS Rules
+extra_styles_custom_css_description = Enter custom CSS rules here. They are appended at the end of the generated CSS file so you can intentionally override existing styles.
+
 extra_styles_import_export = Import / Export
 extra_styles_export = Export
 extra_styles_export_title = Export Styles

@@ -32,16 +32,8 @@ class CssGenerator
             $css[] = "/* Extra Styles - Custom CSS */";
             $css[] = "/* Automatisch generiert am " . date('d.m.Y H:i:s') . " */";
             $css[] = "";
-            
-            // Individuelle CSS-Stile (falls vorhanden)
-            $customCss = $addon->getConfig('custom_css', '');
-            if (!empty(trim($customCss))) {
-                $css[] = "/* Individuelle CSS-Stile */";
-                $css[] = trim($customCss);
-                $css[] = "";
-                $css[] = "/* Generierte Styles */";
-                $css[] = "";
-            }
+            $css[] = "/* Generierte Styles */";
+            $css[] = "";
             
             for ($i = 0; $i < $sql->getRows(); $i++) {
                 $style = [
@@ -59,6 +51,14 @@ class CssGenerator
                 ];
                 $css[] = self::generateStyleCss($style);
                 $sql->next();
+            }
+
+            // Individuelle CSS-Stile am Ende, damit vorhandene Regeln gezielt überschrieben werden können
+            $customCss = trim((string) $addon->getConfig('custom_css', ''));
+            if ('' !== $customCss) {
+                $css[] = "/* Individuelle CSS-Overrides */";
+                $css[] = $customCss;
+                $css[] = "";
             }
             
             $cssContent = implode("\n", $css);
