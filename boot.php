@@ -22,17 +22,18 @@ if (rex::isBackend() && rex_be_controller::getCurrentPagePart(1) === 'extra_styl
     rex_view::addJsFile($addon->getAssetsUrl('extra_styles_backend.js'));
 }
 
-// Custom CSS überall einbinden
+// Custom CSS überall einbinden (generierte Datei liegt unter /assets/addons/extra_styles/custom.css)
+$customCssUrl = rex_url::assets('addons/extra_styles/custom.css');
+
 if (rex::isBackend()) {
-    rex_view::addCssFile($addon->getAssetsUrl('custom.css'));
+    rex_view::addCssFile($customCssUrl);
 }
 
 // Frontend: Custom CSS einbinden
 if (!rex::isBackend()) {
-    $customCssPath = $addon->getAssetsUrl('custom.css');
-    rex_extension::register('OUTPUT_FILTER', function($ep) use ($customCssPath) {
+    rex_extension::register('OUTPUT_FILTER', function($ep) use ($customCssUrl) {
         $content = $ep->getSubject();
-        $cssLink = '<link rel="stylesheet" href="' . $customCssPath . '?' . time() . '">';
+        $cssLink = '<link rel="stylesheet" href="' . $customCssUrl . '?' . time() . '">';
         $content = str_replace('</head>', $cssLink . "\n</head>", $content);
         return $content;
     });
